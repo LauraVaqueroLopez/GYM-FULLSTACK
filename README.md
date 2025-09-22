@@ -175,6 +175,5 @@ PostgreSQL: Base de datos que almacena la información y devuelve resultados al 
 ## 📦 Licencia
 
 MIT License
-└─ README.md
 
 ---
