@@ -7,51 +7,71 @@ Está organizado como un **monorepo**, con carpetas separadas para frontend y ba
 ---
 
 ## 📂 Estructura del proyecto
+
 my-fullstack-project/
+
 │
 ├─ backend/
-│ ├─ package.json
-│ ├─ server.js
-│ ├─ db.js
-│ ├─ routes/
-│ │ └─ users.js
-│ └─ .env
+
+│   ├─ package.json
+
+│   ├─ server.js
+
+│   ├─ db.js
+
+│   ├─ routes/
+
+│   │   └─ users.js
+
+│   └─ .env
+
+
 │
+
 ├─ frontend/
-│ ├─ package.json
-│ ├─ public/
-│ └─ src/
-│ ├─ App.js
-│ ├─ index.js
-│ └─ components/
+
+│   ├─ package.json
+
+│   ├─ public/
+
+│   └─ src/
+
+│       ├─ App.js
+
+│       ├─ index.js
+
+│       └─ components/
+
 │
+
 ├─ .gitignore
-└─ README.md
 
----
+├─ README.md
 
-## ⚙️ Tecnologías usadas
 
-- **Frontend:** React  
-- **Backend:** Node.js + Express.js  
-- **Base de datos:** PostgreSQL  
-- **Otros:** CORS, dotenv, nodemon  
 
----
+**⚙️ Tecnologías usadas**
 
-## 🛠️ Instalación y configuración
+Frontend: React
 
-### 1. Clonar el repositorio
-```bash
+Backend: Node.js + Express.js
+
+Base de datos: PostgreSQL
+
+Otros: CORS, dotenv, nodemon
+
+# 🛠️ Instalación y configuración
+**1️⃣ Clonar el repositorio**
 git clone https://github.com/tu-usuario/my-fullstack-project.git
 cd my-fullstack-project
 
-### 1. Clonar el repositorio
+**2️⃣ Configurar e iniciar el Backend**
 cd backend
 npm install
 
 
-Crear un archivo .env con la configuración de PostgreSQL:
+**Crear un archivo .env con la configuración de PostgreSQL:**
+
 DB_USER=tu_usuario
 DB_PASSWORD=tu_password
 DB_HOST=localhost
@@ -59,24 +79,25 @@ DB_NAME=tu_basedatos
 DB_PORT=5432
 PORT=5000
 
-Iniciar el servidor backend:
+
+**Iniciar el servidor backend:**
 
 npm run dev
 
 
-El servidor corre en http://localhost:5000
+**El servidor corre en: http://localhost:5000**
 
-3. Frontend
+**3️⃣ Configurar e iniciar el Frontend**
 cd frontend
 npm install
 npm start
 
 
-La app de React corre en http://localhost:3000
+La app de React corre en: http://localhost:3000
 
 Para conectar el frontend al backend, usa fetch a http://localhost:5000/api/users o configura un proxy en frontend/package.json.
 
-🔹 Uso
+# 🔹 Uso
 
 Ver usuarios: en el frontend, se hace fetch a la ruta /api/users del backend.
 
@@ -92,11 +113,11 @@ Hacer git pull frecuente para mantener actualizado el main.
 
 Cada desarrollador puede tener su propia base de datos local .env sin afectar al otro.
 
-🔹 Gitignore
+# 🔹 Gitignore
 
 Se recomienda tener un solo .gitignore en la raíz del proyecto.
 
-Este .gitignore ya incluye:
+Este .gitignore incluye:
 
 node_modules para backend y frontend
 
@@ -108,20 +129,20 @@ Logs y caches de herramientas comunes
 
 Esto mantiene el repositorio limpio y evita subir archivos innecesarios o confidenciales.
 
-🔹 Comandos útiles
+# 🔹 Comandos útiles
 
-Backend:
+Backend
 
 npm run dev     # correr con nodemon
 npm start       # correr sin nodemon
 
 
-Frontend:
+Frontend
 
 npm start       # levantar servidor de desarrollo
 npm run build   # construir para producción
 
-📌 Notas
+## 📌 Notas importantes
 
 Asegúrate de tener PostgreSQL instalado y corriendo en tu máquina.
 
@@ -129,39 +150,31 @@ Este proyecto usa monorepo: backend y frontend separados, cada uno con sus propi
 
 Los .env no deben subirse al repositorio.
 
-📦 Licencia
+**🔹 Flujo de datos**
+
+flowchart LR
+
+    A[Frontend (React)] -->|fetch / axios| B[Backend (Express)]
+    
+    B -->|consultas SQL| C[PostgreSQL]
+    
+    C -->|resultado| B
+    
+    B -->|JSON response| A
+    
+
+
+# Explicación rápida:
+
+Frontend (React): Hace peticiones HTTP al backend usando fetch o axios. Consume la API y muestra datos en componentes.
+
+Backend (Express): Recibe las solicitudes del frontend, consulta la base de datos PostgreSQL usando pg y devuelve los datos en JSON.
+
+PostgreSQL: Base de datos que almacena la información y devuelve resultados al backend.
+
+## 📦 Licencia
 
 MIT License
-
+└─ README.md
 
 ---
-
-Diagrama del flujo de datos
-flowchart LR
-    A[Frontend (React)] -->|fetch / axios| B[Backend (Express)]
-    B -->|consultas SQL| C[PostgreSQL]
-    C -->|resultado| B
-    B -->|JSON response| A
-
-🔹 Explicación rápida
-
-Frontend (React)
-
-Hace peticiones HTTP al backend usando fetch o axios.
-
-Consume la API y muestra datos en componentes.
-
-Backend (Express)
-
-Recibe las solicitudes del frontend.
-
-Consulta la base de datos PostgreSQL usando pg.
-
-Devuelve los datos en formato JSON al frontend.
-
-PostgreSQL
-
-Base de datos que almacena la información.
-
-El backend ejecuta consultas y devuelve los resultados.
-
