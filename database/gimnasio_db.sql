@@ -55,10 +55,10 @@ CREATE TABLE Clases (
 
 CREATE TABLE Reservas (
     id_reserva UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    id_usuario UUID NOT NULL,
+    id_cliente UUID NOT NULL,
     id_clase UUID NOT NULL,
     fecha_reserva DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente) ON DELETE CASCADE,
     FOREIGN KEY (id_clase) REFERENCES Clases(id_clase) ON DELETE CASCADE
 );
 
@@ -96,19 +96,10 @@ CREATE TABLE Productos (
 
 CREATE TABLE Pedidos (
     id_pedido UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    id_usuario UUID NOT NULL,
+    id_cliente UUID NOT NULL,
     fecha_pedido DATE DEFAULT CURRENT_DATE,
     total DECIMAL(10,2),
     estado VARCHAR(20) CHECK (estado IN ('pendiente','pagado','enviado')) DEFAULT 'pendiente',
-    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE
+    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente) ON DELETE CASCADE
 );
 
-CREATE TABLE DetallePedidos (
-    id_detalle UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    id_pedido UUID NOT NULL,
-    id_producto UUID NOT NULL,
-    cantidad INT DEFAULT 1,
-    subtotal DECIMAL(10,2),
-    FOREIGN KEY (id_pedido) REFERENCES Pedidos(id_pedido) ON DELETE CASCADE,
-    FOREIGN KEY (id_producto) REFERENCES Productos(id_producto) ON DELETE CASCADE
-);
