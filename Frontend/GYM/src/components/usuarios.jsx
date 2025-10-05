@@ -12,9 +12,13 @@ function Usuarios() {
     <div>
       <h1>Usuarios</h1>
       <ul>
-        {usuarios.map(u => (
-          <li key={u.id_usuario}>{u.nombre} {u.apellidos}</li>
-        ))}
+        {usuarios.length === 0 ? (
+          <li>No hay usuarios</li>
+        ) : (
+          usuarios.map(u => (
+            <li key={u.id_usuario}>{u.nombre} {u.apellidos}</li>
+          ))
+        )}
       </ul>
     </div>
   );

@@ -1,5 +1,5 @@
 -- Crear un usuario
-CREATE USER gimnasio_user WITH PASSWORD 'tu_contraseña_segura';
+CREATE USER gimnasio_user;
 
 -- Crear la base de datos
 CREATE DATABASE gimnasio_db
