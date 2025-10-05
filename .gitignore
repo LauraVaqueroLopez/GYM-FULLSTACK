@@ -19,6 +19,7 @@ bower_components
 .lock-wscript
 build/Release
 node_modules/
+.env
 jspm_packages/
 web_modules/
 *.tsbuildinfo
