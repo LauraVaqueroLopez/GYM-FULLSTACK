@@ -115,3 +115,16 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 /* extra helpers */
 .divider{height:1px;background:#f1f5f9;margin:8px -28px}
 
+/* global center wrapper for all pages */
+.app-center{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.page-container{
+  width:100%;
+  max-width:960px;
+}
+
