@@ -1,16 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginRequest } from "../api/authApi";
 import "../styles.css";
+import { AuthContext } from "../context/AuthContext";
 
-function Login({ setUser }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [dni, setDni] = useState("");
   const [mensaje, setMensaje] = useState(""); // mensaje éxito
   const [error, setError] = useState("");     // mensaje error
   const [submitting, setSubmitting] = useState(false);
   const submittingRef = useRef(false);
-  const loginSucceededRef = useRef(false);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -39,26 +40,12 @@ function Login({ setUser }) {
   console.log("Login response:", res.data); // para depuración
 
 
-      // Guardar usuario y token
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      localStorage.setItem("token", res.data.token);
-
-      // Llamar a setUser solo si es una función (evita TypeError si no se pasó)
-      if (typeof setUser === "function") {
-        setUser(res.data.user);
-      } else {
-        console.log("[CLIENT DEBUG] setUser no proporcionado, omitiendo actualización de estado de usuario");
-      }
-
-      // Asegurarnos de que no queda mensaje de error previo y marcar éxito
+      // Usar AuthContext para almacenar usuario y token globalmente
+      login(res.data.user, res.data.token);
       setError("");
-      loginSucceededRef.current = true;
-
-      // Mostrar mensaje de éxito
       setMensaje("✅ Has iniciado sesión correctamente");
-
-      // Redirigir al dashboard después de 1 segundo
-      setTimeout(() => navigate("/dashboard"), 1000);
+      // Redirigir inmediatamente al dashboard
+      navigate("/dashboard");
 
     } catch (err) {
       // Log completo para poder depurar cuando err.response sea undefined
@@ -96,7 +83,7 @@ function Login({ setUser }) {
           required
         />
 
-  <button type="submit" disabled={submitting}>{submitting ? 'Enviando...' : 'Entrar'}</button>
+  <button type="submit">Entrar</button>
 
         {/* Mensajes */}
         {error && <p className="error">{error}</p>}
@@ -104,7 +91,7 @@ function Login({ setUser }) {
 
         <div style={{ textAlign: "center", marginTop: "10px" }}>
           <span>¿No tienes cuenta? </span>
-          <Link to="/register" style={{ color: "#2575fc", textDecoration: "none" }}>
+          <Link to="/register" className="signup-link">
             Regístrate
           </Link>
         </div>

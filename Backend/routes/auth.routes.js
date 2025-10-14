@@ -28,6 +28,25 @@ router.post("/register", async (req, res) => {
     // Normalizar DNI antes de cualquier comprobación/almacenamiento
     const normalizeDni = (raw) => String(raw || "").trim().replace(/[-\s]/g, "").toUpperCase();
     const normalizedDni = normalizeDni(dni);
+    // Si es cliente y se proporcionó fecha_nacimiento, validar edad >= 16
+    if (req.body && req.body.rol === "cliente") {
+      const fechaNacimiento = req.body.fecha_nacimiento;
+      if (fechaNacimiento) {
+        const birth = new Date(fechaNacimiento);
+        if (isNaN(birth.getTime())) {
+          return res.status(400).json({ message: "Fecha de nacimiento inválida" });
+        }
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+          age--;
+        }
+        if (age < 16) {
+          return res.status(400).json({ message: "Debes tener al menos 16 años para registrarte como cliente" });
+        }
+      }
+    }
     // Verificar duplicados
     const existEmail = await Usuario.findOne({ where: { email } });
   const existDni = await Usuario.findOne({ where: { dni: normalizedDni } });
@@ -38,11 +57,24 @@ router.post("/register", async (req, res) => {
   // Crear usuario (guardar DNI normalizado)
   const newUser = await Usuario.create({ nombre, apellidos, email, dni: normalizedDni, rol });
 
-    // Crear registro en Clientes o Entrenadores
+    // Crear registro en Clientes o Entrenadores con campos adicionales si se proporcionan
     if (rol === "cliente") {
-      await Cliente.create({ id_usuario: newUser.id_usuario });
+      const { fecha_nacimiento = null, peso = null, altura = null, objetivo = null } = req.body;
+      await Cliente.create({
+        id_usuario: newUser.id_usuario,
+        fecha_nacimiento: fecha_nacimiento || null,
+        peso: peso || null,
+        altura: altura || null,
+        objetivo: objetivo || null,
+      });
     } else if (rol === "entrenador") {
-      await Entrenador.create({ id_usuario: newUser.id_usuario });
+      const { especialidad = null, experiencia = null, descripcion = null } = req.body;
+      await Entrenador.create({
+        id_usuario: newUser.id_usuario,
+        especialidad: especialidad || null,
+        experiencia: experiencia !== undefined && experiencia !== null ? Number(experiencia) : null,
+        descripcion: descripcion || null,
+      });
     }
 
     return res.status(201).json({
