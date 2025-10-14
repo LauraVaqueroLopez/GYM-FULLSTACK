@@ -25,15 +25,18 @@ router.post("/register", async (req, res) => {
   }
 
   try {
+    // Normalizar DNI antes de cualquier comprobación/almacenamiento
+    const normalizeDni = (raw) => String(raw || "").trim().replace(/[-\s]/g, "").toUpperCase();
+    const normalizedDni = normalizeDni(dni);
     // Verificar duplicados
     const existEmail = await Usuario.findOne({ where: { email } });
-    const existDni = await Usuario.findOne({ where: { dni } });
+  const existDni = await Usuario.findOne({ where: { dni: normalizedDni } });
 
     if (existEmail) return res.status(400).json({ message: "Email ya registrado" });
-    if (existDni) return res.status(400).json({ message: "DNI ya registrado" });
+  if (existDni) return res.status(400).json({ message: "DNI ya registrado" });
 
-    // Crear usuario
-    const newUser = await Usuario.create({ nombre, apellidos, email, dni, rol });
+  // Crear usuario (guardar DNI normalizado)
+  const newUser = await Usuario.create({ nombre, apellidos, email, dni: normalizedDni, rol });
 
     // Crear registro en Clientes o Entrenadores
     if (rol === "cliente") {
@@ -74,7 +77,19 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Usuario no encontrado" });
     }
 
-    if (user.dni !== dni) {
+    // Normalizar DNI antes de comparar: quitar espacios/guiones y pasar a mayúsculas
+    const normalizeDni = (raw) =>
+      String(raw || "").trim().replace(/[-\s]/g, "").toUpperCase();
+
+    const rawUserDni = user.dni;
+    const rawReqDni = dni;
+    const normUserDni = normalizeDni(rawUserDni);
+    const normReqDni = normalizeDni(rawReqDni);
+    console.log("[DEBUG login] user.dni raw:", JSON.stringify(rawUserDni), "normalized:", normUserDni);
+    console.log("[DEBUG login] req.dni raw:", JSON.stringify(rawReqDni), "normalized:", normReqDni);
+
+    if (normUserDni !== normReqDni) {
+      console.log("[DEBUG login] DNI mismatch");
       return res.status(401).json({ message: "DNI incorrecto" });
     }
 

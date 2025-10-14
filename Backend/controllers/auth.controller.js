@@ -11,8 +11,9 @@ export const login = async (req, res) => {
     if (!user)
       return res.status(404).json({ message: "Usuario no encontrado" });
 
-    // Validar DNI
-    if (user.dni !== dni)
+    // Validar DNI (normalizar ambos valores antes de comparar)
+    const normalizeDni = (raw) => String(raw || "").trim().replace(/[-\s]/g, "").toUpperCase();
+    if (normalizeDni(user.dni) !== normalizeDni(dni))
       return res.status(401).json({ message: "DNI incorrecto" });
 
     // Crear token JWT
