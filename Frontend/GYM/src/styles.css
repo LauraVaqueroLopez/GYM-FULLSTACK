@@ -25,8 +25,9 @@ body{
   justify-content:center;
   padding:40px 16px;
   /* ensure centering even if other rules try to override */
-  -webkit-box-pack:center !important;
-  justify-content:center !important;
+  margin-left:420px;
+  margin-right: -100px;
+
 }
 
 .login-form{
@@ -39,7 +40,7 @@ body{
   display:flex;
   flex-direction:column;
   gap:12px;
-  margin: 0 auto; /* center within container */
+  margin-left:200px;
 }
 
 .login-form h2{
