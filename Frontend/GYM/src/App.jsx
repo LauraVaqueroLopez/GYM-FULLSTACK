@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Seguimiento from "./pages/Seguimiento.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Navigate } from "react-router-dom";
 
@@ -20,6 +21,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/seguimiento"
+              element={
+                <ProtectedRoute>
+                  <Seguimiento />
                 </ProtectedRoute>
               }
             />

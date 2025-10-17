@@ -11,6 +11,7 @@ function Login() {
   const [error, setError] = useState("");     // mensaje error
   const [submitting, setSubmitting] = useState(false);
   const submittingRef = useRef(false);
+  const loginSucceededRef = useRef(false);
   
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function Login() {
 
       // Usar AuthContext para almacenar usuario y token globalmente
       login(res.data.user, res.data.token);
+  loginSucceededRef.current = true;
       setError("");
       setMensaje("✅ Has iniciado sesión correctamente");
       // Redirigir inmediatamente al dashboard
@@ -90,7 +92,7 @@ function Login() {
         {error && <p className="error">{error}</p>}
         {mensaje && <p className="success">{mensaje}</p>}
 
-        <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <div className="form-note-center">
           <span>¿No tienes cuenta? </span>
           <Link to="/register" className="signup-link">
             Regístrate
