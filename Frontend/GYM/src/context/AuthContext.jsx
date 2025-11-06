@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -7,13 +7,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-try {
-  if (storedUser) setUser(JSON.parse(storedUser));
-} catch (error) {
-  console.warn("No se pudo parsear el user del localStorage:", error);
-  localStorage.removeItem("user"); // limpiar si está corrupto
-}
-
+    try {
+      if (storedUser) setUser(JSON.parse(storedUser));
+    } catch (error) {
+      console.warn("No se pudo parsear el user del localStorage:", error);
+      localStorage.removeItem("user"); // limpiar si está corrupto
+    }
   }, []);
 
   const login = (userData, token) => {
@@ -33,3 +32,6 @@ try {
     </AuthContext.Provider>
   );
 };
+
+// 👇 Hook para usar AuthContext más fácilmente en cualquier componente
+export const useAuth = () => useContext(AuthContext);
