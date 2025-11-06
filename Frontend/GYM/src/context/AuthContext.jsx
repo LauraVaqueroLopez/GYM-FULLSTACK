@@ -1,53 +1,54 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-<<<<<<< HEAD
-    const storedUser = localStorage.getItem("user");
-    try {
-      if (storedUser) setUser(JSON.parse(storedUser));
-    } catch (error) {
-      console.warn("No se pudo parsear el user del localStorage:", error);
-      localStorage.removeItem("user"); // limpiar si está corrupto
-=======
-    // Read auth state synchronously from localStorage on mount
     try {
       const storedUser = localStorage.getItem("user");
+      const storedToken = localStorage.getItem("token");
+
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
+      if (storedToken) {
+        setToken(storedToken);
+      }
     } catch (error) {
-      console.warn("No se pudo parsear el user del localStorage:", error);
-      localStorage.removeItem("user"); // limpiar si está corrupto
+      console.warn("Error leyendo datos de auth desde localStorage:", error);
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
     } finally {
-      // mark initialization complete so ProtectedRoute knows we checked localStorage
       setInitializing(false);
->>>>>>> 8c6e238735ad899402d437ff7399cf30678e3e65
     }
   }, []);
 
-  const login = (userData, token) => {
+  const login = (userData, tokenValue) => {
     localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", tokenValue);
+
     setUser(userData);
+    setToken(tokenValue);
   };
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
     setUser(null);
+    setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, initializing }}>
+    <AuthContext.Provider value={{ user, token, login, logout, initializing }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// 👇 Hook para usar AuthContext más fácilmente en cualquier componente
+// ✅ AÑADE ESTO AL FINAL DEL ARCHIVO
 export const useAuth = () => useContext(AuthContext);
