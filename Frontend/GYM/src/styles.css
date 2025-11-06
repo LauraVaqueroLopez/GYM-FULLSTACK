@@ -25,8 +25,9 @@ body{
   justify-content:center;
   padding:40px 16px;
   /* ensure centering even if other rules try to override */
-  -webkit-box-pack:center !important;
-  justify-content:center !important;
+  margin-left:420px;
+  margin-right: -100px;
+
 }
 
 .login-form{
@@ -39,7 +40,7 @@ body{
   display:flex;
   flex-direction:column;
   gap:12px;
-  margin: 0 auto; /* center within container */
+  margin-left:200px;
 }
 
 .login-form h2{
@@ -98,6 +99,51 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 }
 .login-form button:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(18, 116, 57, 0.18)}
 
+/* Button utilities used throughout the app */
+.btn-primary{
+  padding:8px 12px;
+  border-radius:8px;
+  border:none;
+  background:linear-gradient(90deg,var(--primary),var(--primary-600));
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(37,117,80,0.12);
+}
+.btn-primary:hover{transform:translateY(-2px);}
+
+.btn-secondary{
+  padding:7px 10px;
+  border-radius:8px;
+  border:1px solid #d1eadd;
+  background:#fff;
+  color:#0f5132;
+  font-weight:600;
+  cursor:pointer;
+}
+.btn-secondary:hover{background:#f6fff8}
+
+.btn-danger{
+  padding:7px 10px;
+  border-radius:8px;
+  border:none;
+  background:linear-gradient(90deg,#ef4444,#f87171);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+.btn-danger:hover{opacity:0.95}
+
+/* small inline variant for compact controls inside lists */
+.btn-small{ padding:6px 8px; font-size:0.9rem; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; white-space:nowrap; min-width:64px }
+.btn-small.btn-primary{ padding:6px 10px }
+.btn-small + .btn-small{ margin-left:6px }
+
+/* If inline controls run out of space, allow horizontal scrolling instead of wrapping */
+.inline-controls{ display:flex; gap:8px; align-items:center; flex-wrap:nowrap; overflow-x:auto }
+.inline-controls::-webkit-scrollbar{ height:6px }
+.inline-controls::-webkit-scrollbar-thumb{ background:rgba(15,81,50,0.12); border-radius:6px }
+
 .error{color:#b91c1c; font-size:0.9rem; text-align:left}
 .success{color:#047857; font-size:0.95rem; text-align:center; font-weight:600}
 
@@ -127,4 +173,55 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   width:100%;
   max-width:960px;
 }
+
+/* Seguimiento page styles */
+.header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.registro{font-size:12px;color:#6b7280}
+.right-align{text-align:right}
+.seguimiento-grid{display:block}
+.seguimiento-columns{display:grid;grid-template-columns:320px minmax(560px,1fr) 360px;column-gap:180px;row-gap:28px;}
+.col-min{min-width:0}
+.mb-12{margin-bottom:12px}
+.right-col{width:420px;min-width:300px}
+
+.entries-list{display:flex;flex-direction:column;gap:18px;max-height:720px;overflow-y:auto;padding-right:6px}
+.entry-wrapper{display:block}
+.entry-card{padding:22px;border-radius:14px;background:#fbfffc;border:1px solid #e6f3ea;box-shadow:0 8px 22px rgba(10,50,20,0.05);font-size:17px;line-height:1.6;min-height:120px;overflow-wrap:break-word;word-break:break-word;white-space:normal}
+.entry-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.entry-date{font-weight:700;font-size:17px}
+.entry-peso{color:#0f5132;font-weight:900;font-size:17px}
+.entry-meta{font-size:15px;color:#374151;margin-top:12px}
+.entry-observaciones{margin-top:14px;font-size:16px;color:#0b1720}
+.controls-row{display:flex;gap:8px;margin-top:12px}
+.input-small{width:80px;padding:8px;border-radius:8px;border:1px solid #e6eef0}
+.input-medium{width:100px;padding:8px;border-radius:8px;border:1px solid #e6eef0}
+.pre-wrap{white-space:pre-wrap}
+.objetivo-badge{display:inline-block;padding:8px 12px}
+
+/* make seguimiento responsive */
+@media (max-width:960px){
+  .seguimiento-columns{grid-template-columns:1fr;}
+  .right-col{width:100%;min-width:unset}
+}
+
+.entries-toggle{display:flex;gap:12px;align-items:center;justify-content:flex-end;margin-top:12px}
+.entries-toggle .small{color:var(--muted);margin-right:8px}
+
+.objetivo-edit select{padding:8px;border-radius:8px;border:1px solid #e6e9ef}
+.objetivo-edit{display:flex;flex-direction:column}
+
+/* Dashboard styles moved from inline/classes in component */
+.dashboard-container{padding:32px}
+.dashboard-title{font-size:1.875rem;font-weight:700;margin-bottom:12px}
+.dashboard-role{margin-bottom:18px}
+.dashboard-actions{margin-bottom:18px}
+.btn-logout{margin-top:24px;background:#dc2626;color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+.btn-logout:hover{background:#b91c1c}
+
+/* Login/Register specific tweaks moved from components */
+.form-note-center{ text-align:center; margin-top:10px }
+
+/* Ensure form buttons match app style (register/login) */
+.login-form button, .login-form input[type='submit'], .login-form button[type='submit']{ padding:12px 14px; border-radius:10px; border:none; background:linear-gradient(90deg,var(--primary),var(--primary-600)); color:#fff; font-weight:600; cursor:pointer }
+.login-form button:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(18,116,57,0.18) }
 

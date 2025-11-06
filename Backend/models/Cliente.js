@@ -11,6 +11,7 @@ const Cliente = sequelize.define(
     },
     id_usuario: { type: DataTypes.CHAR(36), allowNull: false, unique: true },
     fecha_nacimiento: DataTypes.DATEONLY,
+<<<<<<< HEAD
     peso: DataTypes.DECIMAL(5, 2),
     altura: DataTypes.DECIMAL(4, 2),
     objetivo: DataTypes.ENUM(
@@ -19,6 +20,11 @@ const Cliente = sequelize.define(
       "mejorar resistencia",
       "otro"
     ),
+=======
+  peso: DataTypes.DECIMAL(5, 2),
+  altura: DataTypes.DECIMAL(5, 2),
+    objetivo: DataTypes.ENUM("perder peso","ganar músculo","mejorar resistencia","otro")
+>>>>>>> 8c6e238735ad899402d437ff7399cf30678e3e65
   },
   { tableName: "Clientes", timestamps: false }
 );

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { useContext, useEffect, useState } from "react";
+=======
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+>>>>>>> 8c6e238735ad899402d437ff7399cf30678e3e65
 import { AuthContext } from "../context/AuthContext";
 import { getEntrenadores, contratarEntrenador } from "../api/entrenadoresApi";
 
@@ -29,6 +34,7 @@ const Dashboard = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">
         Bienvenido, {user?.nombre || "Usuario"} 👋
@@ -69,6 +75,17 @@ const Dashboard = () => {
           )}
         </div>
       )}
+=======
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">Bienvenido, {user?.nombre || "Usuario"} 👋</h1>
+      <p className="dashboard-role">Rol: {user?.rol}</p>
+
+      <div className="dashboard-actions">
+        <Link to="/seguimiento" className="btn-primary">Ir a Seguimiento</Link>
+      </div>
+
+      <button onClick={logout} className="btn-logout">Cerrar sesión</button>
+>>>>>>> 8c6e238735ad899402d437ff7399cf30678e3e65
     </div>
   );
 };

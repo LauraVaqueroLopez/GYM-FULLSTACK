@@ -25,7 +25,7 @@ CREATE TABLE Clientes (
     id_usuario CHAR(36) UNIQUE NOT NULL,
     fecha_nacimiento DATE,
     peso DECIMAL(5,2),
-    altura DECIMAL(3,0),
+    altura DECIMAL(5,2),
     objetivo ENUM('perder peso','ganar músculo','mejorar resistencia','otro'),
     FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE
 );
