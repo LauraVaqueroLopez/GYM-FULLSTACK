@@ -50,5 +50,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// ✅ AÑADE ESTO AL FINAL DEL ARCHIVO
+
 export const useAuth = () => useContext(AuthContext);

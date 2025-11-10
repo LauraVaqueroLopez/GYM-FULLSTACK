@@ -1,4 +1,4 @@
-// models/associations.js
+
 import Usuario from "./Usuario.js";
 import Cliente from "./Cliente.js";
 import Entrenador from "./Entrenador.js";

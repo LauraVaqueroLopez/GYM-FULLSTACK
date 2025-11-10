@@ -1,16 +1,14 @@
-// controllers/ContratacionController.js
+
 import Contratacion from "../models/Contratacion.js";
 import Cliente from "../models/Cliente.js";
 import Entrenador from "../models/Entrenador.js";
 import Usuario from "../models/Usuario.js";
 
-/**
- * ✅ Contratar un entrenador (solo clientes)
- */
+
 export const contratarEntrenador = async (req, res) => {
   try {
     const { id_entrenador } = req.body;
-    const user = req.user; // viene del middleware verifyToken
+    const user = req.user;
 
     if (!user || user.rol !== "cliente") {
       return res.status(403).json({ message: "Solo los clientes pueden contratar entrenadores" });
