@@ -4,6 +4,7 @@ import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Entrenadores from "./pages/Entrenadores.jsx";
 import Seguimiento from "./pages/Seguimiento.jsx"; 
+import Resenas from "./pages/Resenas.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
@@ -43,6 +44,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Seguimiento />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Reseñas protegido */}
+        <Route
+          path="/resenas"
+          element={
+            <ProtectedRoute>
+              <Resenas />
             </ProtectedRoute>
           }
         />

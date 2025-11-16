@@ -320,9 +320,9 @@ const Seguimiento = () => {
           <div className="seguimiento-grid">
             <div className="seguimiento-columns">
           {/* Left column: form/search */}
-          <div className="col-min">
+          <div>
             {user?.rol === "cliente" && (
-                <div className="card mb-12">
+                <div>
                   <h3>Añadir entrada</h3>
                   <form onSubmit={handleCrear} className="form-grid">
                     <div className="field">

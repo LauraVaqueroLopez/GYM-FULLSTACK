@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes.js";
 import contratacionRoutes from "./routes/ContratacionRoutes.js";
 import seguimientoRoutes from "./routes/seguimiento.routes.js";
+import resenasRoutes from "./routes/resenas.routes.js";
 
 import sequelize from "./config/db_connection.js";
 import "./models/associations.js";
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/contrataciones", contratacionRoutes);
 app.use("/api/seguimiento", seguimientoRoutes);
+app.use("/api/resenas", resenasRoutes);
 
 const PORT = process.env.PORT || 4000;
 

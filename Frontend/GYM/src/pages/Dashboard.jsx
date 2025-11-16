@@ -81,6 +81,7 @@ const Dashboard = () => {
           {mensaje && <p className="mb-4 text-blue-700">{mensaje}</p>}
 
               {entrenadores.length > 0 ? (
+            <>
             <ul className="space-y-4">
               {entrenadores.map((ent) => {
                 const contratacionActiva = contrataciones.find((c) => c.id_entrenador === ent.id_entrenador && c.estado === "activa");
@@ -106,6 +107,10 @@ const Dashboard = () => {
                 );
               })}
             </ul>
+            <div style={{marginTop:12}}>
+              <Link to="/resenas" className="btn-secondary btn-small">Ver más</Link>
+            </div>
+            </>
           ) : (
             <p>No hay entrenadores disponibles.</p>
           )}
