@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import seguimientoApi from "../api/seguimientoApi";
 import { Line } from "react-chartjs-2";
@@ -307,13 +308,15 @@ const Seguimiento = () => {
   return (
     <ErrorBoundary>
       <div className="page-container">
-          <div className="header-row">
+            <div className="header-row">
             <div>
               <h2>Seguimiento</h2>
               {userInfo?.fecha_registro && 
               <div className="registro">Registro: {userInfo.fecha_registro}</div>}
             </div>
-            <div className="right-align"></div>
+            <div>
+              <Link to="/dashboard" className="btn-secondary">Volver</Link>
+            </div>
               {mensaje && <p className="success">{mensaje}</p>}
           </div>
 

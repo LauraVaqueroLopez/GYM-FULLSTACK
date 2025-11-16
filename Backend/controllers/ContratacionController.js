@@ -52,7 +52,7 @@ export const contratarEntrenador = async (req, res) => {
 };
 
 /**
- * ✅ Obtener las contrataciones de un cliente autenticado
+ *Obtener las contrataciones de un cliente autenticado
  */
 export const obtenerContratacionesCliente = async (req, res) => {
   try {
@@ -79,7 +79,7 @@ export const obtenerContratacionesCliente = async (req, res) => {
 };
 
 /**
- * ✅ Cancelar una contratación
+ * Cancelar una contratación
  */
 export const cancelarContratacion = async (req, res) => {
   try {
@@ -100,7 +100,7 @@ export const cancelarContratacion = async (req, res) => {
 };
 
 /**
- * ✅ Obtener lista de entrenadores disponibles
+ * Obtener lista de entrenadores disponibles
  */
 export const getEntrenadores = async (req, res) => {
   try {

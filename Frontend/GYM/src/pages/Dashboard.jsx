@@ -14,13 +14,13 @@ const Dashboard = () => {
       try {
         const data = await getEntrenadores();
         setEntrenadores(data);
-        // if user is cliente, fetch their contrataciones to mark hired trainers
+        // si el usuario es cliente, obtener sus contrataciones para marcar entrenadores contratados
         try {
           const mis = await getMisContrataciones();
           setContrataciones(mis || []);
         } catch (innerErr) {
-          // ignore if user not authenticated or not cliente
-          // console.warn('No pude cargar contrataciones:', innerErr);
+          // ignorar si el usuario no está autenticado o no es cliente
+            // console.warn('No pude cargar contrataciones:', innerErr);
         }
       } catch (err) {
         console.error("Error al cargar entrenadores:", err);
@@ -33,7 +33,7 @@ const Dashboard = () => {
     try {
       const res = await contratarEntrenador(id_entrenador);
       setMensaje(res.message || "Entrenador contratado correctamente ✅");
-      // add new contratacion to state if present
+      // añadir la nueva contratación al estado si viene en la respuesta
       if (res.contratacion) setContrataciones((s) => [...s, res.contratacion]);
     } catch (err) {
       setMensaje(err.response?.data?.message || "Error al contratar entrenador ❌");
@@ -44,7 +44,7 @@ const Dashboard = () => {
     try {
       const res = await cancelarContratacion(idContratacion);
       setMensaje(res.message || "Contratación cancelada");
-      // update local state: use id_contratacion (primary key in backend)
+      // actualizar el estado local: usar id_contratacion (clave primaria en el backend)
       setContrataciones((s) => s.map((c) => (c.id_contratacion === idContratacion ? { ...c, estado: "cancelada" } : c)));
     } catch (err) {
       setMensaje(err.response?.data?.message || "Error al cancelar contratación");
@@ -69,7 +69,7 @@ const Dashboard = () => {
           onClick={logout}
           className="btn-logout"
         >
-          <span className="btn-logout-text">Cerrar sesión</span>
+          <span className="btn-logout-text">Salir</span>
         </button>
       </div>
 
@@ -87,20 +87,20 @@ const Dashboard = () => {
                 const contratacionActiva = contrataciones.find((c) => c.id_entrenador === ent.id_entrenador && c.estado === "activa");
                 const tieneAlgunaActiva = contrataciones.some((c) => c.estado === "activa");
                 return (
-                  <li key={ent.id_entrenador} className="border p-4 rounded-lg shadow">
+                  <li key={ent.id_entrenador}>
                     <p><strong>{ent.Usuario?.nombre}</strong> - {ent.especialidad}</p>
                     <p>Experiencia: {ent.experiencia} años</p>
                     {!contratacionActiva ? (
                       // Si ya tiene cualquier contratación activa, no permitir contratar otro
                       tieneAlgunaActiva ? (
-                        <button disabled title="Tienes una contratación activa" className="mt-2 bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">Ya tienes entrenador</button>
+                        <button disabled title="Tienes una contratación activa">Ya tienes entrenador</button>
                       ) : (
-                        <button onClick={() => handleContratar(ent.id_entrenador)} className="mt-2 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Contratar</button>
+                        <button onClick={() => handleContratar(ent.id_entrenador)}>Contratar</button>
                       )
                     ) : (
                       <div style={{display:'flex',gap:8,alignItems:'center'}}>
                         <span className="small">Contratado</span>
-                        <button onClick={() => handleCancelar(contratacionActiva.id_contratacion)} className="mt-2 bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700">Cancelar contratación</button>
+                        <button onClick={() => handleCancelar(contratacionActiva.id_contratacion)} >Dar de baja</button>
                       </div>
                     )}
                   </li>

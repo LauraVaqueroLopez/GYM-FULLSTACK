@@ -107,9 +107,9 @@ const Resenas = () => {
 
   return (
     <div className="page-container resenas-page">
-      <div className="resenas-header" style={{display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px'}}>
-        <Link to="/dashboard" className="btn-secondary btn-small">Volver</Link>
+      <div className="resenas-header">
         <h2 style={{margin:0}}>Reseñas de Entrenadores</h2>
+        <Link to="/dashboard" className="btn-secondary btn-small">Volver</Link>
       </div>
       <div className="trainers-list">
         <h3>Entrenadores</h3>

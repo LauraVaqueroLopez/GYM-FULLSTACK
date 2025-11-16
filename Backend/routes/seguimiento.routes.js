@@ -60,7 +60,7 @@ router.get("/usuario/:id", authMiddleware, async (req, res) => {
     const entries = await Seguimiento.findAll({ where: { id_usuario: id }, order: [["fecha", "ASC"]] });
     const cliente = await Cliente.findOne({ where: { id_usuario: id } });
     const user = await Usuario.findByPk(id);
-    // return entries, cliente data and basic user info (including fecha_registro)
+    // return entrads y fecha registro
     return res.status(200).json({ entries, cliente, user: user ? { id_usuario: user.id_usuario, nombre: user.nombre, apellidos: user.apellidos, dni: user.dni, fecha_registro: user.fecha_registro } : null });
   } catch (error) {
     console.error("Error obteniendo entradas:", error);
@@ -141,7 +141,7 @@ router.put('/cliente/:idUsuario', authMiddleware, async (req, res) => {
     const { idUsuario } = req.params;
     const { objetivo } = req.body;
 
-    // Only allow cliente editing their own objetivo, or entrenador/admin
+    // permitir solo al cliente o entrenador correspondientes editar
     if (req.user.rol === 'cliente' && req.user.id_usuario !== idUsuario) {
       return res.status(403).json({ message: 'No puedes editar el objetivo de otro usuario' });
     }
@@ -149,7 +149,7 @@ router.put('/cliente/:idUsuario', authMiddleware, async (req, res) => {
     const cliente = await Cliente.findOne({ where: { id_usuario: idUsuario } });
     if (!cliente) return res.status(404).json({ message: 'Cliente no encontrado' });
 
-    // Validate objetivo if provided
+    // Validar objetivo si se proporciona
     const allowed = ['perder peso', 'ganar músculo', 'mejorar resistencia', 'otro'];
     if (objetivo !== undefined && objetivo !== null && !allowed.includes(objetivo)) {
       return res.status(400).json({ message: 'Valor de objetivo inválido' });
