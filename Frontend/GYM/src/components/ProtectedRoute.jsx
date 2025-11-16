@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const { user, initializing } = useContext(AuthContext);
   // while we read localStorage / initialize, don't redirect — show a small loader
   if (initializing) return <div style={{ padding: 24 }}>Cargando sesión...</div>;
-  if (!user) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/" />;
   return children;
 };
 

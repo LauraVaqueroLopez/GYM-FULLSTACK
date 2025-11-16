@@ -30,25 +30,26 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">
+
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">
         Bienvenido, {user?.nombre || "Usuario"} 👋
       </h1>
-      <p>Rol: {user?.rol}</p>
-
+      <p className="dashboard-role">Rol: {user?.rol}</p>
       {/* Botón de seguimiento */}
-      <div className="my-4">
-        <Link to="/seguimiento" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-          Ir a Seguimiento
-        </Link>
-      </div>
+      <div className="dashboard-buttons">
 
-      <button
-        onClick={logout}
-        className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-      >
-        Cerrar sesión
-      </button>
+          <Link to="/seguimiento" className="btn-seguimiento">
+            Ir a Seguimiento
+          </Link>
+
+        <button
+          onClick={logout}
+          className="btn-logout"
+        >
+          <span className="btn-logout-text">Cerrar sesión</span>
+        </button>
+      </div>
 
       <hr className="my-6" />
 
@@ -58,14 +59,14 @@ const Dashboard = () => {
           {mensaje && <p className="mb-4 text-blue-700">{mensaje}</p>}
 
           {entrenadores.length > 0 ? (
-            <ul className="space-y-4">
+            <ul>
               {entrenadores.map((ent) => (
-                <li key={ent.id_entrenador} className="border p-4 rounded-lg shadow">
+                <li key={ent.id_entrenador}>
                   <p><strong>{ent.Usuario?.nombre}</strong> - {ent.especialidad}</p>
                   <p>Experiencia: {ent.experiencia} años</p>
                   <button
                     onClick={() => handleContratar(ent.id_entrenador)}
-                    className="mt-2 bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                
                   >
                     Contratar
                   </button>
