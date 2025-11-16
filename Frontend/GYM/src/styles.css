@@ -178,11 +178,11 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 }
 
 /* Seguimiento page styles */
-.header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-left: 5%;}
 .registro{font-size:12px;color:#6b7280}
 .right-align{text-align:right}
 .seguimiento-grid{display:block}
-.seguimiento-columns{display:grid;grid-template-columns:320px minmax(560px,1fr) 360px;column-gap:180px;row-gap:28px;}
+.seguimiento-columns{display:grid;grid-template-columns:320px minmax(560px,1fr) 360px;column-gap:180px;row-gap:28px;padding: 5%;}
 .col-min{min-width:0}
 .mb-12{margin-bottom:12px}
 .right-col{width:420px;min-width:300px}

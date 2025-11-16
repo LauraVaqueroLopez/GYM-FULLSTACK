@@ -30,3 +30,23 @@ export const contratarEntrenador = async (id_entrenador) => {
 
   return res.data;
 };
+
+// Obtener las contrataciones del cliente autenticado
+export const getMisContrataciones = async () => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("No hay token de autenticación. Inicia sesión de nuevo.");
+  const res = await axios.get(`${API_URL}/mis-contrataciones`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
+// Cancelar una contratación por id
+export const cancelarContratacion = async (idContratacion) => {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("No hay token de autenticación. Inicia sesión de nuevo.");
+  const res = await axios.put(`${API_URL}/cancelar/${encodeURIComponent(idContratacion)}`, {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};

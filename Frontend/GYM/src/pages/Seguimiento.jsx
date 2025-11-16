@@ -90,6 +90,8 @@ const Seguimiento = () => {
   }, [clienteInfo]);
 
   const fetchPorUsuario = async (id) => {
+    // clear previous messages when loading new data
+    setMensaje("");
     try {
       const res = await seguimientoApi.obtenerPorUsuario(id, token);
       const serverEntries = res.data.entries || [];
@@ -207,7 +209,9 @@ const Seguimiento = () => {
       setMensaje('Corrige los errores del formulario.');
       return;
     }
-    try {
+  // clear any previous messages before creating
+  setMensaje("");
+  try {
       const payload = {
         id_usuario: user.id_usuario,
         fecha: fecha || new Date().toISOString().slice(0, 10),
@@ -233,6 +237,8 @@ const Seguimiento = () => {
 
   const handleBuscar = async (e) => {
     e.preventDefault();
+    // clear previous messages when a new search starts
+    setMensaje("");
     try {
       const res = await seguimientoApi.obtenerPorDni(dniBuscar, token);
     const serverEntries = res.data.entries || [];
@@ -304,9 +310,11 @@ const Seguimiento = () => {
           <div className="header-row">
             <div>
               <h2>Seguimiento</h2>
-              {userInfo?.fecha_registro && <div className="registro">Registro: {userInfo.fecha_registro}</div>}
+              {userInfo?.fecha_registro && 
+              <div className="registro">Registro: {userInfo.fecha_registro}</div>}
             </div>
             <div className="right-align"></div>
+              {mensaje && <p className="success">{mensaje}</p>}
           </div>
 
           <div className="seguimiento-grid">
@@ -317,29 +325,29 @@ const Seguimiento = () => {
                 <div className="card mb-12">
                   <h3>Añadir entrada</h3>
                   <form onSubmit={handleCrear} className="form-grid">
-                  <div className="field">
+                    <div className="field">
                     <label>Peso (kg)</label>
-                    <input type="number" step="0.1" value={peso} onChange={(e) => setPeso(e.target.value)} />
+                    <input type="number" step="0.1" value={peso} onChange={(e) => { setPeso(e.target.value); setMensaje(""); }} />
                     {formErrors.peso && <div className="error">{formErrors.peso}</div>}
                   </div>
                   <div className="field">
                     <label>Fecha</label>
-                    <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
+                    <input type="date" value={fecha} onChange={(e) => { setFecha(e.target.value); setMensaje(""); }} />
                     {formErrors.fecha && <div className="error">{formErrors.fecha}</div>}
                   </div>
                   <div className="field">
                     <label>Altura (cm)</label>
-                    <input type="number" step="0.1" value={altura} onChange={(e) => setAltura(e.target.value)} />
+                    <input type="number" step="0.1" value={altura} onChange={(e) => { setAltura(e.target.value); setMensaje(""); }} />
                     {formErrors.altura && <div className="error">{formErrors.altura}</div>}
                   </div>
                   <div className="field">
                     <label>Calorías quemadas</label>
-                    <input type="number" value={calorias} onChange={(e) => setCalorias(e.target.value)} />
+                    <input type="number" value={calorias} onChange={(e) => { setCalorias(e.target.value); setMensaje(""); }} />
                     {formErrors.calorias && <div className="error">{formErrors.calorias}</div>}
                   </div>
                   <div className="field full">
                     <label>Observaciones</label>
-                    <textarea value={observaciones} onChange={(e) => setObservaciones(e.target.value)} />
+                    <textarea value={observaciones} onChange={(e) => { setObservaciones(e.target.value); setMensaje(""); }} />
                     {formErrors.observaciones && <div className="error">{formErrors.observaciones}</div>}
                   </div>
                   <div className="field full">
@@ -353,7 +361,7 @@ const Seguimiento = () => {
               <div className="card mb-12">
                 <h3>Buscar cliente por DNI</h3>
                 <form onSubmit={handleBuscar} className="form-inline">
-                  <input placeholder="DNI cliente" value={dniBuscar} onChange={(e) => setDniBuscar(e.target.value)} />
+                  <input placeholder="DNI cliente" value={dniBuscar} onChange={(e) => { setDniBuscar(e.target.value); setMensaje(""); }} />
                   <button className="btn-primary" type="submit">Buscar</button>
                 </form>
               </div>
@@ -407,11 +415,11 @@ const Seguimiento = () => {
 
                                 {isEditing && (
                                   <div className="inline-controls">
-                                    <input className="input-small" type="number" step="0.1" value={editValues.peso} onChange={(ev) => setEditValues((s) => ({ ...s, peso: ev.target.value }))} />
+                                    <input className="input-small" type="number" step="0.1" value={editValues.peso} onChange={(ev) => { setEditValues((s) => ({ ...s, peso: ev.target.value })); setMensaje(""); }} />
                                     {editErrors.peso && <div className="error">{editErrors.peso}</div>}
-                                    <input className="input-small" type="number" step="0.1" value={editValues.altura} onChange={(ev) => setEditValues((s) => ({ ...s, altura: ev.target.value }))} />
+                                    <input className="input-small" type="number" step="0.1" value={editValues.altura} onChange={(ev) => { setEditValues((s) => ({ ...s, altura: ev.target.value })); setMensaje(""); }} />
                                     {editErrors.altura && <div className="error">{editErrors.altura}</div>}
-                                    <input className="input-medium" type="number" value={editValues.calorias_quemadas} onChange={(ev) => setEditValues((s) => ({ ...s, calorias_quemadas: ev.target.value }))} />
+                                    <input className="input-medium" type="number" value={editValues.calorias_quemadas} onChange={(ev) => { setEditValues((s) => ({ ...s, calorias_quemadas: ev.target.value })); setMensaje(""); }} />
                                     {editErrors.calorias_quemadas && <div className="error">{editErrors.calorias_quemadas}</div>}
                                     <button className="btn-primary btn-small" onClick={async () => {
                                       // validate edit values
@@ -477,7 +485,7 @@ const Seguimiento = () => {
               </div>
             )}
 
-            {mensaje && <p className="success">{mensaje}</p>}
+           
           </div>
         </div>
       </div>

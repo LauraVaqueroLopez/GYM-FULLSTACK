@@ -26,13 +26,13 @@ export const contratarEntrenador = async (req, res) => {
       return res.status(404).json({ message: "Entrenador no encontrado" });
     }
 
-    // Evitar duplicados
-    const existente = await Contratacion.findOne({
-      where: { id_cliente: cliente.id_cliente, id_entrenador, estado: "activa" },
+    // Evitar que un cliente tenga más de 1 entrenador activo a la vez
+    const anyActive = await Contratacion.findOne({
+      where: { id_cliente: cliente.id_cliente, estado: "activa" },
     });
 
-    if (existente) {
-      return res.status(400).json({ message: "Ya tienes una contratación activa con este entrenador" });
+    if (anyActive) {
+      return res.status(400).json({ message: "Ya tienes una contratación activa. Cancela la actual antes de contratar otra." });
     }
 
     // Crear nueva contratación

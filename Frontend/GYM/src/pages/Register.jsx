@@ -61,7 +61,7 @@ function Register() {
 
       await registerRequest(payload);
       alert("Registro exitoso. Ahora puedes iniciar sesión.");
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Error al registrarse");
     }
