@@ -28,6 +28,15 @@ export const contratarEntrenador = async (id_entrenador) => {
     }
   );
 
+  // Emitir evento global para notificar a otros componentes que las contrataciones han cambiado
+  try {
+    if (typeof window !== "undefined" && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent("contratacionesUpdated", { detail: res.data }));
+    }
+  } catch (e) {
+    // no crítico
+  }
+
   return res.data;
 };
 
@@ -48,5 +57,14 @@ export const cancelarContratacion = async (idContratacion) => {
   const res = await axios.put(`${API_URL}/cancelar/${encodeURIComponent(idContratacion)}`, {}, {
     headers: { Authorization: `Bearer ${token}` },
   });
+
+  // Emitir evento global para notificar a otros componentes que las contrataciones han cambiado
+  try {
+    if (typeof window !== "undefined" && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent("contratacionesUpdated", { detail: res.data }));
+    }
+  } catch (e) {
+    // no crítico
+  }
   return res.data;
 };

@@ -85,18 +85,12 @@ const Dashboard = () => {
             <ul className="space-y-4">
               {entrenadores.map((ent) => {
                 const contratacionActiva = contrataciones.find((c) => c.id_entrenador === ent.id_entrenador && c.estado === "activa");
-                const tieneAlgunaActiva = contrataciones.some((c) => c.estado === "activa");
                 return (
                   <li key={ent.id_entrenador}>
                     <p><strong>{ent.Usuario?.nombre}</strong> - {ent.especialidad}</p>
                     <p>Experiencia: {ent.experiencia} años</p>
                     {!contratacionActiva ? (
-                      // Si ya tiene cualquier contratación activa, no permitir contratar otro
-                      tieneAlgunaActiva ? (
-                        <button disabled title="Tienes una contratación activa">Ya tienes entrenador</button>
-                      ) : (
-                        <button onClick={() => handleContratar(ent.id_entrenador)}>Contratar</button>
-                      )
+                      <button onClick={() => handleContratar(ent.id_entrenador)}>Contratar</button>
                     ) : (
                       <div style={{display:'flex',gap:8,alignItems:'center'}}>
                         <span className="small">Contratado</span>
