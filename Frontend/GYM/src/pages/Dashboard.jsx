@@ -87,6 +87,12 @@ const Dashboard = () => {
             <Link to="/tienda" className="btn-tienda">
               Ir a Tienda
             </Link>
+            {/* 📌 Añadimos el botón de reservar clase aquí para fácil acceso */}
+            {contrataciones.some((c) => c.estado === "activa") && (
+              <Link to="/reserva-clase" className="btn-reserva">
+                Reservar Clase
+              </Link>
+            )}
           </>
         )}
 
@@ -106,20 +112,22 @@ const Dashboard = () => {
           {entrenadores.length > 0 ? (
             <ul className="space-y-4">
               {entrenadores.map((ent) => {
-<<<<<<< HEAD
+                // 1. Encontrar si el entrenador actual tiene una contratación activa con el cliente
                 const contratacionActiva = contrataciones.find(
                   (c) =>
                     c.id_entrenador === ent.id_entrenador &&
                     c.estado === "activa"
                 );
 
+                // 2. Comprobar si el cliente tiene CUALQUIER otra contratación activa
                 const tieneAlgunaActiva = contrataciones.some(
                   (c) => c.estado === "activa"
                 );
+                
+                // NOTA: La lógica de tu rama (HEAD) era más completa que la de tu compañero, 
+                // ya que comprueba si ya tiene *alguna* contratación activa para limitar a 1 entrenador.
+                // Hemos fusionado y limpiado este bloque.
 
-=======
-                const contratacionActiva = contrataciones.find((c) => c.id_entrenador === ent.id_entrenador && c.estado === "activa");
->>>>>>> a4bacefca9076acbf8421b2ee457161e71375c73
                 return (
                   <li key={ent.id_entrenador}>
                     <p>
@@ -128,33 +136,37 @@ const Dashboard = () => {
                     <p>Experiencia: {ent.experiencia} años</p>
 
                     {!contratacionActiva ? (
-<<<<<<< HEAD
+                      /* Si NO está contratado actualmente: */
                       tieneAlgunaActiva ? (
-                        <button disabled title="Tienes una contratación activa">
+                        /* Ya tiene otro entrenador contratado */
+                        <button disabled title="Tienes una contratación activa" className="btn-disabled">
                           Ya tienes entrenador
                         </button>
                       ) : (
+                        /* Puede contratar a este entrenador */
                         <button
                           onClick={() => handleContratar(ent.id_entrenador)}
+                          className="btn-primary"
                         >
                           Contratar
                         </button>
                       )
-=======
-                      <button onClick={() => handleContratar(ent.id_entrenador)}>Contratar</button>
->>>>>>> a4bacefca9076acbf8421b2ee457161e71375c73
                     ) : (
+                      /* Si SÍ está contratado actualmente: */
                       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                        <span className="small">Contratado</span>
+                        <span className="small text-green-600 font-bold">Contratado ✅</span>
                         <button
                           onClick={() =>
                             handleCancelar(contratacionActiva.id_contratacion)
                           }
+                          className="btn-secondary"
                         >
                           Dar de baja
                         </button>
+                        {/* ⚠️ Nota: Esta ruta de reserva individual ya no es necesaria 
+                             si usas el botón global de arriba, pero la mantenemos por consistencia. */}
                         <Link
-                          to={`/reserva/${ent.id_entrenador}`}
+                          to={`/reserva-clase`} 
                           className="btn-primary btn-small"
                         >
                           Reservar Clase
