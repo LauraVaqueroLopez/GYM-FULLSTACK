@@ -131,16 +131,18 @@ function Register() {
                   placeholder="Fecha de nacimiento"
                   value={fechaNacimiento}
                   onChange={(e) => setFechaNacimiento(e.target.value)}
+                  required
                 />
               </div>
               <div className="field">
                 <label className="small">Peso (kg)</label>
                 <input
                   type="number"
-                  step="0.01"
+                  step="0.5"
                   placeholder="Peso (kg)"
                   value={peso}
                   onChange={(e) => setPeso(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -154,14 +156,15 @@ function Register() {
                   placeholder="Altura (cm)"
                   value={altura}
                   onChange={(e) => setAltura(e.target.value)}
+                  required
                 />
               </div>
               <div className="field">
                 <label className="small">Objetivo</label>
                 <select value={objetivo} onChange={(e) => setObjetivo(e.target.value)}>
-                  <option value="perder peso">Perder peso</option>
-                  <option value="ganar músculo">Ganar músculo</option>
-                  <option value="mejorar resistencia">Mejorar resistencia</option>
+                  <option value="perder peso" required>Perder peso</option>
+                  <option value="ganar músculo" required>Ganar músculo</option>
+                  <option value="mejorar resistencia" required>Mejorar resistencia</option>
                   <option value="otro">Otro</option>
                 </select>
               </div>
@@ -181,6 +184,7 @@ function Register() {
                   placeholder="Especialidad"
                   value={especialidad}
                   onChange={(e) => setEspecialidad(e.target.value)}
+                  required
                 />
               </div>
               <div className="field">
@@ -195,6 +199,7 @@ function Register() {
                   pattern="[0-9]*"
                   value={experiencia}
                   onChange={(e) => setExperiencia(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -205,6 +210,7 @@ function Register() {
                   placeholder="Descripción"
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
+                  required
                 />
               </div>
             </div>

@@ -106,6 +106,7 @@ const Dashboard = () => {
           {entrenadores.length > 0 ? (
             <ul className="space-y-4">
               {entrenadores.map((ent) => {
+<<<<<<< HEAD
                 const contratacionActiva = contrataciones.find(
                   (c) =>
                     c.id_entrenador === ent.id_entrenador &&
@@ -116,6 +117,9 @@ const Dashboard = () => {
                   (c) => c.estado === "activa"
                 );
 
+=======
+                const contratacionActiva = contrataciones.find((c) => c.id_entrenador === ent.id_entrenador && c.estado === "activa");
+>>>>>>> a4bacefca9076acbf8421b2ee457161e71375c73
                 return (
                   <li key={ent.id_entrenador}>
                     <p>
@@ -124,6 +128,7 @@ const Dashboard = () => {
                     <p>Experiencia: {ent.experiencia} años</p>
 
                     {!contratacionActiva ? (
+<<<<<<< HEAD
                       tieneAlgunaActiva ? (
                         <button disabled title="Tienes una contratación activa">
                           Ya tienes entrenador
@@ -135,6 +140,9 @@ const Dashboard = () => {
                           Contratar
                         </button>
                       )
+=======
+                      <button onClick={() => handleContratar(ent.id_entrenador)}>Contratar</button>
+>>>>>>> a4bacefca9076acbf8421b2ee457161e71375c73
                     ) : (
                       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                         <span className="small">Contratado</span>

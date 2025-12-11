@@ -150,6 +150,7 @@ CREATE TABLE `resenias` (
   `id_resenia` char(36) NOT NULL DEFAULT uuid(),
   `id_usuario` char(36) NOT NULL,
   `id_entrenador` char(36) NOT NULL,
+  `id_contratacion` char(36) DEFAULT NULL,
   `puntuacion` tinyint(4) DEFAULT NULL CHECK (`puntuacion` between 1 and 5),
   `comentario` text DEFAULT NULL,
   `fecha` date DEFAULT curdate()
@@ -289,6 +290,7 @@ ALTER TABLE `resenias`
   ADD PRIMARY KEY (`id_resenia`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_entrenador` (`id_entrenador`);
+  ADD KEY `id_contratacion` (`id_contratacion`);
 
 --
 -- Indices de la tabla `reservas`
@@ -361,6 +363,7 @@ ALTER TABLE `pedidos`
 ALTER TABLE `resenias`
   ADD CONSTRAINT `resenias_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
   ADD CONSTRAINT `resenias_ibfk_2` FOREIGN KEY (`id_entrenador`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+  ADD CONSTRAINT `resenias_ibfk_3` FOREIGN KEY (`id_contratacion`) REFERENCES `contrataciones` (`id_contratacion`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `reservas`
