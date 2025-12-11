@@ -6,10 +6,10 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Entrenadores from "./pages/Entrenadores.jsx";
 import Seguimiento from "./pages/Seguimiento.jsx";
 import Resenas from "./pages/Resenas.jsx";
-import ReservaClase from "./pages/ReservaClase.jsx";
+import ReservaClase from "./pages/ReservaClase.jsx"; // Componente de reserva
 import CrearClase from "./pages/CrearClase.jsx";
 import Tienda from "./pages/Tienda.jsx";
-import CarritoPage from "./pages/Carrito.jsx"; // nueva página del carrito
+import CarritoPage from "./pages/Carrito.jsx"; 
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
@@ -63,8 +63,19 @@ function App() {
           }
         />
 
-        {/* Reservar Clases — recibe id_entrenador */}
+        {/* ✅ RUTA CORREGIDA: Reservar Clases — Ahora en ruta fija /reserva-clase */}
         <Route
+          path="/reserva-clase"
+          element={
+            <ProtectedRoute>
+              <ReservaClase />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ❌ Eliminada la antigua ruta dinámica /reserva/:id_entrenador
+           (o se deja comentada si la necesitas temporalmente) */}
+        {/* <Route
           path="/reserva/:id_entrenador"
           element={
             <ProtectedRoute>
@@ -72,6 +83,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        */}
 
         {/* Crear clase — solo entrenadores */}
         <Route

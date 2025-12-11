@@ -8,6 +8,7 @@ import {
   cancelarContratacion,
 } from "../api/entrenadoresApi";
 
+
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const [entrenadores, setEntrenadores] = useState([]);
@@ -87,12 +88,6 @@ const Dashboard = () => {
             <Link to="/tienda" className="btn-tienda">
               Ir a Tienda
             </Link>
-            {/* 📌 Añadimos el botón de reservar clase aquí para fácil acceso */}
-            {contrataciones.some((c) => c.estado === "activa") && (
-              <Link to="/reserva-clase" className="btn-reserva">
-                Reservar Clase
-              </Link>
-            )}
           </>
         )}
 
