@@ -7,61 +7,57 @@ import { AuthContext } from "../context/AuthContext";
 function Login() {
   const [email, setEmail] = useState("");
   const [dni, setDni] = useState("");
-  const [mensaje, setMensaje] = useState(""); // mensaje éxito
-  const [error, setError] = useState("");     // mensaje error
+  const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const submittingRef = useRef(false);
-  const loginSucceededRef = useRef(false);
   
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("[CLIENT DEBUG] handleLogin start");
     setError("");
     setMensaje("");
-    if (submittingRef.current) {
-      console.log("[CLIENT DEBUG] already submitting (ref), ignoring duplicate submit");
-      return;
-    }
+
+    if (submittingRef.current) return;
     submittingRef.current = true;
     setSubmitting(true);
 
     if (!email.trim() || !dni.trim()) {
       setError("Completa todos los campos");
+      setSubmitting(false);
+      submittingRef.current = false;
       return;
     }
 
     try {
-      // Normalizar DNI en cliente antes de enviarlo
-      const normalizeDni = (raw) => String(raw || "").trim().replace(/[-\s]/g, "").toUpperCase();
+      // Limpiar token antiguo antes de login
+      localStorage.removeItem("token");
+
+      const normalizeDni = (raw) =>
+        String(raw || "").trim().replace(/[-\s]/g, "").toUpperCase();
       const dniToSend = normalizeDni(dni);
-      console.log("[CLIENT DEBUG] sending login with:", { email, dniRaw: dni, dniToSend });
-  const res = await loginRequest(email, dniToSend);
-  console.log("Login response:", res.data); // para depuración
 
+      const res = await loginRequest(email, dniToSend);
 
-      // Usar AuthContext para almacenar usuario y token globalmente
+      // Guardar siempre el token actualizado
+      localStorage.setItem("token", res.data.token);
+
+      // Guardar usuario en AuthContext
       login(res.data.user, res.data.token);
-  loginSucceededRef.current = true;
-      setError("");
-      setMensaje("✅ Has iniciado sesión correctamente");
-      // Redirigir inmediatamente al dashboard
-      navigate("/dashboard");
 
+      setMensaje("✅ Has iniciado sesión correctamente");
+      setError("");
+
+      // Redirigir
+      navigate("/dashboard");
     } catch (err) {
-      // Log completo para poder depurar cuando err.response sea undefined
-      console.log("Login error (full):", err);
-      // Si ya tuvimos un login exitoso, ignoramos errores posteriores
-      if (loginSucceededRef.current) {
-        console.log("[CLIENT DEBUG] login already succeeded, ignoring error");
-      } else {
-        setError(err.response?.data?.message || err.message || "Error al iniciar sesión");
-      }
+      console.log("Login error:", err);
+      setError(err.response?.data?.message || err.message || "Error al iniciar sesión");
     } finally {
-      submittingRef.current = false;
       setSubmitting(false);
+      submittingRef.current = false;
     }
   };
 
@@ -86,9 +82,10 @@ function Login() {
           required
         />
 
-  <button type="submit">Entrar</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Ingresando..." : "Entrar"}
+        </button>
 
-        {/* Mensajes */}
         {error && <p className="error">{error}</p>}
         {mensaje && <p className="success">{mensaje}</p>}
 
