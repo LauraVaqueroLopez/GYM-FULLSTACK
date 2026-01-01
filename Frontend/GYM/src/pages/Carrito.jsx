@@ -60,38 +60,45 @@ const Carrito = () => {
   };
 
   return (
+<div className="carrito-container">
+  <div className="carrito-header">
+    <h1>Carrito</h1>
     <div>
-      <h1>Carrito</h1>
-      <button onClick={() => navigate("/tienda")}>Volver a la tienda</button>
-      {errorMensaje && <p style={{ color: "red" }}>{errorMensaje}</p>}
-      {carrito.length === 0 ? (
-        <p>El carrito está vacío</p>
-      ) : (
-        <div>
-          {carrito.map((item) => (
-            <div
-              key={item.id_carrito}
-              style={{
-                border: "1px solid #ccc",
-                padding: "16px",
-                margin: "8px",
-                borderRadius: "8px",
-              }}
-            >
-              <h3>{item.Producto.nombre}</h3>
-              <p>Cantidad: {item.cantidad}</p>
-              <p>Precio unitario: ${item.Producto.precio}</p>
-              <p>Total: ${item.cantidad * item.Producto.precio}</p>
-              <button onClick={() => handleEliminarUnidad(item.id_producto)}>Eliminar 1</button>
-              <button onClick={() => handleEliminar(item.id_producto)}>Eliminar todo</button>
-            </div>
-          ))}
-          <div style={{ marginTop: "16px" }}>
-            <button onClick={handleRealizarPedido}>Realizar pedido</button>
+      <button onClick={() => navigate("/tienda")} className="btn-secondary">
+        Volver a la tienda
+      </button>
+      <button onClick={handleRealizarPedido} className="btn-primary" style={{ marginLeft: "8px" }}>
+        Realizar pedido
+      </button>
+    </div>
+  </div>
+
+  {errorMensaje && <p style={{ color: "red" }}>{errorMensaje}</p>}
+
+  {carrito.length === 0 ? (
+    <p>El carrito está vacío</p>
+  ) : (
+    <div className="producto">
+      {carrito.map((item) => (
+        <div key={item.id_carrito}>
+          <h3>{item.Producto.nombre}</h3>
+          <p>Cantidad: {item.cantidad}</p>
+          <p>Precio unitario: ${item.Producto.precio}</p>
+          <p>Total: ${item.cantidad * item.Producto.precio}</p>
+          <div className="inline-controls">
+            <button onClick={() => handleEliminarUnidad(item.id_producto)} className="btn-small btn-secondary">
+              Eliminar 1
+            </button>
+            <button onClick={() => handleEliminar(item.id_producto)} className="btn-small btn-danger">
+              Eliminar todo
+            </button>
           </div>
         </div>
-      )}
+      ))}
     </div>
+  )}
+</div>
+
   );
 };
 

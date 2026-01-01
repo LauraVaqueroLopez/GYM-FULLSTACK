@@ -16,8 +16,11 @@ export const realizarPedido = async (req, res) => {
     if (!id_usuario) return res.status(400).json({ message: "Usuario no válido" });
 
     // Obtener id_cliente a partir del usuario
-    const cliente = await Cliente.findOne({ where: { id_usuario } });
-    if (!cliente) return res.status(400).json({ message: "Cliente no válido" });
+    let cliente = await Cliente.findOne({ where: { id_usuario } });
+    if (!cliente) {
+      // Crear un registro mínimo en Clientes si no existe (permitir que entrenadores/admins compren también)
+      cliente = await Cliente.create({ id_usuario, peso: null, altura: null, objetivo: null, codigo_personal: null });
+    }
     const id_cliente = cliente.id_cliente;
 
     // Obtener carrito con productos

@@ -32,4 +32,10 @@ export const borrarEntrada = (id, token) => {
   });
 };
 
-export default { crearEntrada, obtenerPorUsuario, obtenerPorDni, actualizarEntrada, borrarEntrada };
+export const actualizarObjetivo = (idUsuario, objetivo, token) => {
+  return axios.put(`${API_URL}/cliente/${encodeURIComponent(idUsuario)}`, { objetivo }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export default { crearEntrada, obtenerPorUsuario, obtenerPorDni, actualizarEntrada, borrarEntrada, actualizarObjetivo };

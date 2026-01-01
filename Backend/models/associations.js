@@ -8,6 +8,7 @@ import Producto from "./Producto.js";
 import Carrito from "./Carrito.js";
 import Pedido from "./Pedido.js";
 import DetallePedido from "./DetallePedido.js";
+import Resenia from "./Resenia.js";
 
 // ----------------------------
 // Usuario ↔ Cliente / Entrenador
@@ -47,6 +48,13 @@ Reserva.belongsTo(Cliente, { foreignKey: "id_cliente", onDelete: "CASCADE" });
 // ----------------------------
 Usuario.hasMany(Carrito, { foreignKey: "id_usuario", onDelete: "CASCADE" });
 Carrito.belongsTo(Usuario, { foreignKey: "id_usuario", onDelete: "CASCADE" });
+
+// ----------------------------
+// Usuario ↔ Resenia (autor)
+// ----------------------------
+// Una reseña pertenece a un usuario (autor) y se puede incluir con el alias 'autor'
+Resenia.belongsTo(Usuario, { foreignKey: "id_usuario", as: "autor" });
+Usuario.hasMany(Resenia, { foreignKey: "id_usuario" });
 
 // ----------------------------
 // Producto ↔ Carrito (con alias)

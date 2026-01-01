@@ -45,15 +45,17 @@ const CrearClase = () => {
 
       <br /><br />
 
-      <label>Hora inicio:</label>
-      <input type="time" value={horaInicio} onChange={(e) => setHoraInicio(e.target.value)} />
+      <div className="time-row">
+        <div className="time-field">
+          <label>Hora inicio:</label>
+          <input type="time" value={horaInicio} onChange={(e) => setHoraInicio(e.target.value)} />
+        </div>
 
-      <br /><br />
-
-      <label>Hora fin:</label>
-      <input type="time" value={horaFin} onChange={(e) => setHoraFin(e.target.value)} />
-
-      <br /><br />
+        <div className="time-field">
+          <label>Hora fin:</label>
+          <input type="time" value={horaFin} onChange={(e) => setHoraFin(e.target.value)} />
+        </div>
+      </div>
 
       <button onClick={crear}>Crear clases para todo el año</button>
 

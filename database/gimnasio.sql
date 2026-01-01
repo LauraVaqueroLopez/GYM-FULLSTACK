@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2025 a las 13:17:47
+-- Tiempo de generación: 01-01-2026 a las 14:13:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `carrito`
+--
+
+CREATE TABLE `carrito` (
+  `id_carrito` char(36) NOT NULL DEFAULT uuid(),
+  `id_usuario` char(36) NOT NULL,
+  `id_producto` char(36) NOT NULL,
+  `cantidad` int(11) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`id_carrito`, `id_usuario`, `id_producto`, `cantidad`) VALUES
+('10314028-9fde-4bcb-8bc2-784e82f5bb30', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'ea5218be-d6a3-11f0-8377-2c58b9490181', 1),
+('2e32a3c4-f35b-45c4-8d3e-39f27f917f95', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'ea5220e8-d6a3-11f0-8377-2c58b9490181', 1),
+('3a43bb08-d83c-4688-befb-e4ae5f4da710', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'ea521d5a-d6a3-11f0-8377-2c58b9490181', 1),
+('664ad471-d6a3-11f0-8377-2c58b9490181', '91e1bfba-a205-471a-a15c-da24292dc913', '62e911eb-d6a3-11f0-8377-2c58b9490181', 3),
+('ffd86b20-b50e-473b-9d2e-9bd4a57ba9ae', '0789b029-4c63-47fa-8f66-3414f4c96b4b', 'ea5220e8-d6a3-11f0-8377-2c58b9490181', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `clases`
 --
 
@@ -34,8 +58,18 @@ CREATE TABLE `clases` (
   `id_entrenador` char(36) DEFAULT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
-  `plazas_disponibles` int(11) DEFAULT 0
+  `plazas_disponibles` int(11) DEFAULT 0,
+  `hora_fin` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `clases`
+--
+
+INSERT INTO `clases` (`id_clase`, `nombre_clase`, `descripcion`, `id_entrenador`, `fecha`, `hora`, `plazas_disponibles`, `hora_fin`) VALUES
+('d4bab64a-d6a3-11f0-8377-2c58b9490181', 'CrossFit', 'Entrenamiento funcional de alta intensidad', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', '2025-12-15', '10:00:00', 14, '11:00:00'),
+('d4bae5ba-d6a3-11f0-8377-2c58b9490181', 'Yoga', 'Clase de yoga para todos los niveles', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', '2025-12-16', '18:00:00', 20, '19:00:00'),
+('d4bae8f3-d6a3-11f0-8377-2c58b9490181', 'Boxeo', 'Entrenamiento de boxeo para principiantes', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', '2025-12-17', '12:00:00', 12, '13:00:00');
 
 -- --------------------------------------------------------
 
@@ -49,17 +83,16 @@ CREATE TABLE `clientes` (
   `fecha_nacimiento` date DEFAULT NULL,
   `peso` decimal(5,2) DEFAULT NULL,
   `altura` decimal(5,2) DEFAULT NULL,
-  `objetivo` enum('perder peso','ganar m?sculo','mejorar resistencia','otro') DEFAULT NULL
+  `objetivo` enum('perder peso','ganar m?sculo','mejorar resistencia','otro') DEFAULT NULL,
+  `codigo_personal` char(6) DEFAULT NULL
 ) ;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id_cliente`, `id_usuario`, `fecha_nacimiento`, `peso`, `altura`, `objetivo`) VALUES
-('7f859eab-1cfe-41fc-8608-bf6c9c94e90f', '577cd994-65ad-4988-a3a6-5abb4aeb6606', '2000-04-01', 45.00, 123.00, 'perder peso'),
-('a3e7677d-a04b-4558-8cb0-753791ea9850', '36c90cd0-a676-42e0-a36f-90b37c1c66b4', '2000-06-02', 183.50, 178.00, 'perder peso'),
-('e20d0a4d-4331-4f50-a50e-678bb4cb74d5', 'fa1c3e6c-c44b-4c55-ade2-c745f48a1ba7', '2005-01-17', 56.00, 156.00, '');
+INSERT INTO `clientes` (`id_cliente`, `id_usuario`, `fecha_nacimiento`, `peso`, `altura`, `objetivo`, `codigo_personal`) VALUES
+('1d7d931d-b5d7-4cd0-a24c-407a9cc0bc68', '47e659e7-3d59-4fb8-be61-81dd35b6060b', '0006-06-06', 143.00, 167.00, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -108,8 +141,9 @@ CREATE TABLE `entrenadores` (
 --
 
 INSERT INTO `entrenadores` (`id_entrenador`, `id_usuario`, `especialidad`, `experiencia`, `descripcion`) VALUES
-('58a059d5-1cd2-4014-b8be-d4e66520ac15', 'c942d0df-42a0-4339-ac2d-8a04ff276524', 'tONIFICACIÓN Y PÉRDIDA DE PESO', 5, 'eNTRENADORA EXPERIMENTADA'),
-('8a855d0a-7357-45ca-bed4-3d1a30bd3e57', '58fc6059-ae5b-413a-8992-94dde5a67ade', 'Ganar masa muscular', 4, 'Gran apasionado del deporte que busca ayudar a los demás a conseguir sus objetivos.');
+('03710f82-58ee-4fb0-b7df-69516667b695', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', 'Ganancia muscular', 5, 'sientete vivo'),
+('2ddedade-95d5-4c8a-be99-73001dbf7b68', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 'Nutricion', 3, 'experimentada'),
+('c6c62a44-138b-42f7-b414-71dabdead094', '5edc10db-0728-4cc7-93c3-e31a78fd34ce', 'Ganar masa y pérdida de peso', 3, 'experto en nutricion');
 
 -- --------------------------------------------------------
 
@@ -140,6 +174,34 @@ CREATE TABLE `productos` (
   `categoria` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `precio`, `stock`, `categoria`) VALUES
+('62e911eb-d6a3-11f0-8377-2c58b9490181', 'Prote?na Whey', 'Prote?na de suero concentrada', 29.99, 51, 'suplementos'),
+('62eb1205-d6a3-11f0-8377-2c58b9490181', 'Mancuernas 10kg', 'Par de mancuernas de 10kg', 45.00, 22, 'equipamiento'),
+('ea509ab3-d6a3-11f0-8377-2c58b9490181', 'Prote?na Whey Vainilla', 'Prote?na de suero con sabor a vainilla', 29.99, 50, 'Suplementos'),
+('ea5216c2-d6a3-11f0-8377-2c58b9490181', 'Creatina Monohidratada', 'Creatina micronizada de alta pureza', 19.99, 80, 'Suplementos'),
+('ea5218be-d6a3-11f0-8377-2c58b9490181', 'BCAA 2:1:1', 'Amino?cidos esenciales para recuperaci?n muscular', 24.50, 39, 'Suplementos'),
+('ea521a12-d6a3-11f0-8377-2c58b9490181', 'Glutamina 500g', 'Glutamina pura para mejorar la recuperaci?n', 18.99, 35, 'Suplementos'),
+('ea521c04-d6a3-11f0-8377-2c58b9490181', 'Pre Entreno Xtreme', 'Pre-entreno con cafe?na y beta-alanina', 32.00, 25, 'Suplementos'),
+('ea521c88-d6a3-11f0-8377-2c58b9490181', 'Mancuernas 5kg', 'Par de mancuernas de 5kg', 22.99, 30, 'Equipamiento'),
+('ea521cf9-d6a3-11f0-8377-2c58b9490181', 'Mancuernas 10kg', 'Par de mancuernas de 10kg', 45.00, 20, 'Equipamiento'),
+('ea521d5a-d6a3-11f0-8377-2c58b9490181', 'Barra Ol?mpica 20kg', 'Barra profesional para levantamiento', 120.00, 9, 'Equipamiento'),
+('ea521dd7-d6a3-11f0-8377-2c58b9490181', 'Discos 10kg (par)', 'Par de discos de 10kg', 35.00, 40, 'Equipamiento'),
+('ea521e2f-d6a3-11f0-8377-2c58b9490181', 'Esterilla de Yoga', 'Esterilla antideslizante de 6mm', 15.99, 60, 'Accesorios'),
+('ea521e99-d6a3-11f0-8377-2c58b9490181', 'Guantes de Boxeo 12oz', 'Guantes acolchados para boxeo', 39.99, 25, 'Accesorios'),
+('ea521efc-d6a3-11f0-8377-2c58b9490181', 'Comba Profesional', 'Cuerda de saltar ajustable', 12.99, 70, 'Accesorios'),
+('ea521f57-d6a3-11f0-8377-2c58b9490181', 'Cintur?n de Levantamiento', 'Cintur?n r?gido para powerlifting', 29.99, 15, 'Accesorios'),
+('ea522005-d6a3-11f0-8377-2c58b9490181', 'Rodilleras Deportivas', 'Rodilleras el?sticas para entrenamiento', 17.99, 50, 'Accesorios'),
+('ea52208c-d6a3-11f0-8377-2c58b9490181', 'Guantes de Entrenamiento', 'Guantes acolchados para gimnasio', 14.99, 45, 'Accesorios'),
+('ea5220e8-d6a3-11f0-8377-2c58b9490181', 'Bid?n 2 Litros', 'Botella deportiva resistente', 9.99, 98, 'Accesorios'),
+('ea522160-d6a3-11f0-8377-2c58b9490181', 'Toalla Microfibra', 'Toalla absorbente de secado r?pido', 7.50, 120, 'Accesorios'),
+('ea5221ec-d6a3-11f0-8377-2c58b9490181', 'Sudadera Deportiva', 'Sudadera transpirable para entrenamiento', 29.99, 30, 'Ropa'),
+('ea522258-d6a3-11f0-8377-2c58b9490181', 'Camiseta Dry-Fit', 'Camiseta ligera y transpirable', 12.99, 80, 'Ropa'),
+('ea5222ba-d6a3-11f0-8377-2c58b9490181', 'Pantal?n Deportivo', 'Pantal?n c?modo para gym y running', 19.99, 50, 'Ropa');
+
 -- --------------------------------------------------------
 
 --
@@ -150,11 +212,21 @@ CREATE TABLE `resenias` (
   `id_resenia` char(36) NOT NULL DEFAULT uuid(),
   `id_usuario` char(36) NOT NULL,
   `id_entrenador` char(36) NOT NULL,
-  `id_contratacion` char(36) DEFAULT NULL,
   `puntuacion` tinyint(4) DEFAULT NULL CHECK (`puntuacion` between 1 and 5),
   `comentario` text DEFAULT NULL,
   `fecha` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `resenias`
+--
+
+INSERT INTO `resenias` (`id_resenia`, `id_usuario`, `id_entrenador`, `puntuacion`, `comentario`, `fecha`) VALUES
+('02b8608e-f7b4-49f3-be9f-d883b360937e', '91e1bfba-a205-471a-a15c-da24292dc913', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', 5, 'asdasd', '2025-11-30'),
+('1b64ea50-ec51-4081-af11-0822e1bf86a4', '0789b029-4c63-47fa-8f66-3414f4c96b4b', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 5, 'me ayudó en press banca (no sé lo que significa)', '2025-12-02'),
+('6d293589-728c-4f7f-8739-2fbe319dec56', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', 5, 'sdfsfdf', '2025-11-30'),
+('8ad43dd9-dd89-494c-a596-ffb57ba6a56b', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 5, 'sfsfdfsfdf', '2025-11-30'),
+('e0cd3b89-8c7e-453c-a011-2b169ee442fe', '91e1bfba-a205-471a-a15c-da24292dc913', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 5, 'aasd', '2025-11-30');
 
 -- --------------------------------------------------------
 
@@ -190,13 +262,9 @@ CREATE TABLE `seguimiento` (
 --
 
 INSERT INTO `seguimiento` (`id_seguimiento`, `id_usuario`, `fecha`, `peso`, `altura`, `calorias_quemadas`, `observaciones`) VALUES
-('06e501d2-9540-4f12-83b8-170cf8755614', 'fa1c3e6c-c44b-4c55-ade2-c745f48a1ba7', '2025-10-17', 88.00, 99.99, 400, 'nada'),
-('0a97bea3-7fe3-4ae6-a526-20cbaecc4a03', '577cd994-65ad-4988-a3a6-5abb4aeb6606', '2025-10-17', 34.00, 234.00, 123, NULL),
-('1b092b56-5c82-4de7-b90b-3dd1cc6ae74f', '577cd994-65ad-4988-a3a6-5abb4aeb6606', '2025-10-17', 234.00, 234.00, 234, NULL),
-('1f3d7a30-7480-4a78-a09f-5f10ff225481', 'fa1c3e6c-c44b-4c55-ade2-c745f48a1ba7', '2025-10-17', 234.00, 99.99, 34, NULL),
-('8b9b4753-d92e-4596-9eb6-5af86c78a98b', 'fa1c3e6c-c44b-4c55-ade2-c745f48a1ba7', '2025-10-17', 45.00, 123.00, 3234, 'fsff'),
-('969acaf2-cab8-4197-a804-749f288409f9', 'fa1c3e6c-c44b-4c55-ade2-c745f48a1ba7', '2025-10-17', 56.00, 99.99, 2343, 'eee'),
-('c2808a3a-51a2-4f92-a06b-0a42d53605bd', '577cd994-65ad-4988-a3a6-5abb4aeb6606', '0002-10-17', 234.00, 234.00, 234, NULL);
+('2804b95d-f911-4858-86e2-f67851c723ed', '91e1bfba-a205-471a-a15c-da24292dc913', '2025-11-30', 234.00, 136.00, 123, '1231321'),
+('d413db98-a205-4e1f-8e2f-e9fb3a749df4', '0789b029-4c63-47fa-8f66-3414f4c96b4b', '2025-12-02', 45.00, 150.00, 120, 'estoy felis'),
+('f2c627c9-fa60-4ad4-bb6e-ea5538e03a53', '91e1bfba-a205-471a-a15c-da24292dc913', '2025-11-30', 130.00, 130.00, 123, 'sefssesf');
 
 -- --------------------------------------------------------
 
@@ -219,19 +287,29 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellidos`, `email`, `dni`, `rol`, `fecha_registro`) VALUES
-('36c90cd0-a676-42e0-a36f-90b37c1c66b4', 'Laura Yang', 'Vaquero López', 'lili@gmail.com', '55556666N', 'cliente', '2025-10-14'),
-('577cd994-65ad-4988-a3a6-5abb4aeb6606', 'Laura', 'Vaquero', 'popo@gmail.com', '33334444Ñ', 'cliente', '2025-10-17'),
-('58fc6059-ae5b-413a-8992-94dde5a67ade', 'Laura', 'Vaquero', 'laura@gmail.com', '48157895N', 'entrenador', '2025-10-17'),
-('c942d0df-42a0-4339-ac2d-8a04ff276524', 'alicia', 'lopez pedraza', 'ali@gmail.com', '11112222N', 'entrenador', '2025-10-14'),
-('d97f7125-9ea3-11f0-9c24-2c58b9490181', 'Mar?a', 'L?pez Fern?ndez', 'maria.lopez@example.com', '87654321B', 'entrenador', '2025-10-01'),
-('d97fa46b-9ea3-11f0-9c24-2c58b9490181', 'Luc?a', 'Mart?nez Ruiz', 'lucia.martinez@example.com', '11223344C', 'cliente', '2025-10-01'),
-('d97fa715-9ea3-11f0-9c24-2c58b9490181', 'Javier', 'S?nchez Torres', 'javier.sanchez@example.com', '22334455D', 'admin', '2025-10-01'),
-('d97fa7ea-9ea3-11f0-9c24-2c58b9490181', 'Ana', 'G?mez Morales', 'ana.gomez@example.com', '33445566E', 'entrenador', '2025-10-01'),
-('fa1c3e6c-c44b-4c55-ade2-c745f48a1ba7', 'Alicia', 'Pedraza', 'ala@gmail.com', '11112222L', 'cliente', '2025-10-17');
+('0789b029-4c63-47fa-8f66-3414f4c96b4b', 'panceta', 'martinez vaquero', 'panceta.mv@gmail.com', '48160603Y', 'cliente', '2025-12-02'),
+('1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 'Alicia', 'Pedraza', 'ali@gmail.com', '111111111L', 'entrenador', '2025-11-30'),
+('395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'Alicia', 'Pedraza', 'lo@gmail.com', '444444444L', 'cliente', '2025-11-30'),
+('47e659e7-3d59-4fb8-be61-81dd35b6060b', 'Laura', 'Vaquero', 'lara@gmail.com', '111111111N', 'cliente', '2026-01-01'),
+('5edc10db-0728-4cc7-93c3-e31a78fd34ce', 'Laura', 'Vaquero', 'la@gmail.com', '000000000N', 'entrenador', '2026-01-01'),
+('69b86b16-1b54-4dc2-8a68-d65c7d022a68', 'Alicia', 'Pedraza', 'lolos@gmail.com', '222222222L', 'cliente', '2026-01-01'),
+('73f12706-0b14-4bce-bfa3-0a0e4b9a5628', 'Alicia', 'Pedraza', 'lop@gmail.com', '999999999N', 'cliente', '2026-01-01'),
+('81de52ba-33a2-4892-ab4e-9c01c98e5250', 'Laura', 'Vaquero', 'lap@gmail.com', '888888888N', 'cliente', '2026-01-01'),
+('91e1bfba-a205-471a-a15c-da24292dc913', 'judi', 'caba', 'judi@gmail.com', '333333333L', 'cliente', '2025-11-30'),
+('b658a5ef-0c58-4265-b62b-6482232dfe3a', 'Alicia', 'Pedraza', 'lala@gmail.com', '222222223L', 'cliente', '2026-01-01'),
+('cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', 'Laura', 'Vaquero', 'lau@gmail.com', '2222222222L', 'entrenador', '2025-11-30');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  ADD PRIMARY KEY (`id_carrito`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_producto` (`id_producto`);
 
 --
 -- Indices de la tabla `clases`
@@ -245,7 +323,8 @@ ALTER TABLE `clases`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id_cliente`),
-  ADD UNIQUE KEY `id_usuario` (`id_usuario`);
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`),
+  ADD UNIQUE KEY `uniq_codigo_personal` (`codigo_personal`);
 
 --
 -- Indices de la tabla `contrataciones`
@@ -290,7 +369,6 @@ ALTER TABLE `resenias`
   ADD PRIMARY KEY (`id_resenia`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_entrenador` (`id_entrenador`);
-  ADD KEY `id_contratacion` (`id_contratacion`);
 
 --
 -- Indices de la tabla `reservas`
@@ -318,6 +396,13 @@ ALTER TABLE `usuarios`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `carrito`
+--
+ALTER TABLE `carrito`
+  ADD CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `clases`
@@ -363,7 +448,6 @@ ALTER TABLE `pedidos`
 ALTER TABLE `resenias`
   ADD CONSTRAINT `resenias_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
   ADD CONSTRAINT `resenias_ibfk_2` FOREIGN KEY (`id_entrenador`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
-  ADD CONSTRAINT `resenias_ibfk_3` FOREIGN KEY (`id_contratacion`) REFERENCES `contrataciones` (`id_contratacion`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `reservas`

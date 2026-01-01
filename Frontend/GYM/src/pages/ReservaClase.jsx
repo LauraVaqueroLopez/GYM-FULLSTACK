@@ -64,7 +64,7 @@ const ReservaClase = () => {
   };
 
   return (
-    <div>
+    <div className="reservar-container">
       <button onClick={goToDashboard} style={{ marginBottom: '20px', padding: '10px 15px', cursor: 'pointer' }}>
          Volver
       </button>

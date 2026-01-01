@@ -177,12 +177,18 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   max-width:960px;
 }
 
+/* Desplazar contenido un poco a la derecha para alinearlo con el layout principal */
+.page-container{ margin-left:480px }
+
 /* Estilos de la página Seguimiento */
 .header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-left: 5%;}
 .registro{font-size:12px;color:#6b7280}
 .right-align{text-align:right}
 .seguimiento-grid{display:block}
 .seguimiento-columns{display:grid;grid-template-columns:320px minmax(560px,1fr) 360px;column-gap:180px;row-gap:28px;padding: 5%;}
+
+/* Quitar offset lateral sólo para la página de seguimiento */
+.page-container.seguimiento-page{ margin-left: 0; padding-left: 0; }
 .col-min{min-width:0}
 .mb-12{margin-bottom:12px}
 .right-col{width:420px;min-width:300px}
@@ -244,6 +250,11 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .dashboard-buttons .btn-logout{margin-top:0}
 .btn-seguimiento{padding:7px 12px;border-radius:10px;background:#2563eb;color:#fff;border:none;font-weight:600;cursor:pointer;display:inline-block}
 .btn-seguimiento:hover{background:#1e40af}
+.btn-tienda{padding:7px 12px;border-radius:10px;background:#2563eb;color:#fff;border:none;font-weight:600;cursor:pointer;display:inline-block}
+.btn-tienda:hover{background:#1e40af}
+.producto{border: 1px solid #ccc;padding: 16px;margin: 8px;border-radius: 8px}
+.btn-reseñas{padding:7px 12px;border-radius:10px;background:#2563eb;color:#fff;border:none;font-weight:600;cursor:pointer;display:inline-block}
+.btn-reseñas:hover{background:#1e40af}
 
 /* estabilizar el botón de logout para evitar recorte de texto en la carga/hidratación del stylesheet */
 .btn-logout{display:inline-block;white-space:nowrap!important;min-width:140px;text-align:center;overflow:visible}
@@ -278,6 +289,9 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   flex-direction: column;
   gap: 16px;
 }
+
+/* mover reserva-clase ligeramente a la derecha en pantallas amplias */
+.reserva-clase-container{ margin-left:480px }
 
 .selector-fecha,
 .selector-hora {
@@ -314,14 +328,14 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 }
 
 .btn-reservar {
-  padding: 10px 16px;
+  padding: 7px 12px;
   border-radius: 10px;
-  border: none;
-  background: linear-gradient(90deg, var(--primary), var(--primary-600));
+  background: #2563eb;
   color: #fff;
+  border: none;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  display: inline-block;
 }
 
 .btn-reservar:hover {
@@ -334,4 +348,168 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   color: var(--primary);
   margin-top: 10px;
   text-align: center;
+}
+
+/* ===== Estilos para CrearClase ===== */
+.page-container h2{
+  font-size:1.6rem;
+  margin-bottom:10px;
+  color:#071422;
+}
+
+.page-container label{
+  display:block;
+  margin:8px 0 6px 0;
+  font-weight:700;
+  color:#0b2f1f;
+}
+
+.page-container input[type="time"],
+.page-container input[type="date"],
+.page-container input,
+.page-container textarea,
+.page-container select{
+  max-width:520px;
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e6e9ef;
+  background:#fff;
+  box-shadow:0 6px 18px rgba(2,6,23,0.02);
+}
+
+.page-container button{
+  margin-top:12px;
+  padding:10px 14px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(90deg,var(--primary),var(--primary-600));
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(37,117,80,0.08);
+}
+
+.page-container button:disabled{opacity:0.6; cursor:not-allowed}
+
+.page-container .error{ text-align:left; margin-top:8px }
+.page-container .success{ text-align:center; margin-top:8px }
+
+/* Layout for hora inicio / hora fin in CrearClase */
+.time-row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:16px;
+  align-items:start;
+  margin-top:6px;
+  margin-bottom:6px;
+}
+.time-field label{ display:block; margin-bottom:6px; font-weight:700; color:#0b2f1f }
+.time-field input[type="time"]{ width:100%; max-width:100%; }
+
+/* ===== Estilos para ReservaClase (ajustes globales para inputs/selects/botones usados allí) ===== */
+/* Target combinaciones comunes en ReservaClase.jsx sin cambiar JS */
+input[type="date"]{
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e6e9ef;
+  background:#fff;
+  max-width:240px;
+}
+
+select{
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e6e9ef;
+  background:#fff;
+  max-width:520px;
+}
+
+/* Botón volver en ReservaClase: apariencia más ligera y coherente */
+button[style]{
+  background:transparent !important;
+  border:1px solid #e6eef0 !important;
+  color:#0f172a !important;
+  border-radius:10px !important;
+  padding:8px 12px !important;
+}
+
+/* Reservar -> usar estilo primario similar al resto */
+button[disabled]{ opacity:0.6 }
+
+/* Asegurar que llamados a reservar hereden el estilo primario si no tienen clase */
+button:not([style]):not(.btn-secondary):not(.btn-danger){
+  padding:10px 14px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(90deg,var(--primary),var(--primary-600));
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* pequeños ajustes responsivos */
+@media (max-width:720px){
+  .page-container{ padding:20px }
+  input[type="date"], select { max-width:100% }
+  .page-container{ margin-left:0 }
+  .time-row{ grid-template-columns: 1fr; gap:10px }
+}
+
+.producto {
+  display: grid; /* activar grid layout */
+  grid-template-columns: repeat(6, 1fr); /* 6 columnas de igual ancho */
+  gap: 16px; /* espacio entre productos */
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.producto > div {
+  background: var(--card);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.carrito-header {
+  position: sticky;
+  top: 0; /* se queda pegado al top del contenedor */
+  background: var(--card); /* mismo fondo que el carrito */
+  padding: 16px;
+  z-index: 10; /* para que esté por encima del grid */
+  display: flex;
+  justify-content: space-between; /* separar botones y título */
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+
+.carrito-container {
+  max-width: 100%x;
+  margin: 0 auto;
+  background: var(--card);
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-left: 100px;
+}
+
+.reservar-container {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--card);
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-left: 650px;
 }

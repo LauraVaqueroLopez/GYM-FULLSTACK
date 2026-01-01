@@ -15,6 +15,12 @@ const Cliente = sequelize.define(
       unique: true 
     },
 
+    codigo_personal: {
+      type: DataTypes.STRING(6),
+      allowNull: true,
+      unique: true,
+    },
+
     fecha_nacimiento: DataTypes.DATEONLY,
     peso: DataTypes.DECIMAL(5, 2),
     altura: DataTypes.DECIMAL(4, 2),

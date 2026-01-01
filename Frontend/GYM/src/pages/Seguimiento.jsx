@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import seguimientoApi from "../api/seguimientoApi";
+import { getClienteByCodigo } from "../api/authApi";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -55,7 +56,6 @@ const Seguimiento = () => {
   const [fecha, setFecha] = useState(new Date().toISOString().slice(0, 10));
   const [observaciones, setObservaciones] = useState("");
   const [formErrors, setFormErrors] = useState({});
-  const [dniBuscar, setDniBuscar] = useState("");
   const [clienteInfo, setClienteInfo] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [mensaje, setMensaje] = useState("");
@@ -85,10 +85,87 @@ const Seguimiento = () => {
     }
   }, [user]);
 
+  const location = useLocation();
+
+  // Buscar cliente por codigo_personal (entrenador/admin) y cargar sus entradas
+  const buscarPorCodigo = async (codigo) => {
+    if (!codigo) return;
+    setMensaje("");
+    try {
+      const tokenLocal = token || localStorage.getItem("token");
+      const resCliente = await getClienteByCodigo(codigo, tokenLocal);
+      const cliente = resCliente.data.cliente || null;
+      const uInfo = resCliente.data.user || null;
+      if (!uInfo) {
+        setMensaje("Cliente no encontrado");
+        return;
+      }
+      setClienteInfo(cliente);
+      setObjetivoValue(cliente?.objetivo || "");
+      setUserInfo(uInfo);
+
+      const resEntries = await seguimientoApi.obtenerPorUsuario(uInfo.id_usuario, tokenLocal);
+      const serverEntries = resEntries.data.entries || [];
+
+      const entriesWithInit = (() => {
+        if (!cliente || cliente.peso === null || cliente.peso === undefined) return serverEntries;
+        const alreadyHas = serverEntries.some((e) => Number(e.peso) === Number(cliente.peso));
+        if (alreadyHas) return serverEntries;
+        const initEntry = {
+          id_seguimiento: "init",
+          id_usuario: cliente.id_usuario || null,
+          fecha: uInfo?.fecha_registro || "Registro",
+          peso: Number(cliente.peso),
+          altura: cliente.altura || null,
+          calorias_quemadas: null,
+          observaciones: "Peso al registrarse",
+        };
+        return [initEntry, ...serverEntries];
+      })();
+
+      setEntries(entriesWithInit);
+    } catch (err) {
+      console.error("Error buscar por codigo:", err);
+      setMensaje(err.response?.data?.message || "Error buscando cliente");
+    }
+  };
+
+  // Si la ruta tiene ?codigo=..., realizar búsqueda automática al montar/cambiar la query
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const codigoParam = params.get("codigo");
+    if (codigoParam && (user?.rol === "entrenador" || user?.rol === "admin")) {
+      buscarPorCodigo(codigoParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search, user]);
+
   // sync objetivoValue when clienteInfo changes
   useEffect(() => {
     setObjetivoValue(normalizeObjetivo(clienteInfo?.objetivo));
   }, [clienteInfo]);
+
+  const canEditObjetivo = () => {
+    if (!user || !userInfo) return false;
+    if (user.rol === "cliente") return user.id_usuario === userInfo.id_usuario;
+    if (user.rol === "entrenador" || user.rol === "admin") return true;
+    return false;
+  };
+
+  const handleSaveObjetivo = async () => {
+    try {
+      const tokenLocal = token || localStorage.getItem("token");
+      // call API to update objetivo
+      await seguimientoApi.actualizarObjetivo(userInfo.id_usuario, objetivoValue || "", tokenLocal);
+      // refresh local clienteInfo
+      setClienteInfo((c) => ({ ...(c || {}), objetivo: objetivoValue || null }));
+      setMensaje("Objetivo actualizado");
+      setObjetivoEditing(false);
+    } catch (err) {
+      console.error("Error actualizando objetivo:", err);
+      setMensaje(err.response?.data?.message || "Error actualizando objetivo");
+    }
+  };
 
   const fetchPorUsuario = async (id) => {
     // clear previous messages when loading new data
@@ -236,40 +313,6 @@ const Seguimiento = () => {
     }
   };
 
-  const handleBuscar = async (e) => {
-    e.preventDefault();
-    // clear previous messages when a new search starts
-    setMensaje("");
-    try {
-      const res = await seguimientoApi.obtenerPorDni(dniBuscar, token);
-    const serverEntries = res.data.entries || [];
-  const cliente = res.data.cliente || res.data.user || null;
-  const uInfo = res.data.user || null;
-  setClienteInfo(cliente);
-  setObjetivoValue(cliente?.objetivo || "");
-  setUserInfo(uInfo);
-      const entriesWithInit = (() => {
-        if (!cliente || cliente.peso === null || cliente.peso === undefined) return serverEntries;
-        const alreadyHas = serverEntries.some((e) => Number(e.peso) === Number(cliente.peso));
-        if (alreadyHas) return serverEntries;
-        const initEntry = {
-          id_seguimiento: "init",
-          id_usuario: cliente.id_usuario || null,
-          fecha: uInfo?.fecha_registro || "Registro",
-          peso: Number(cliente.peso),
-          altura: cliente.altura || null,
-          calorias_quemadas: null,
-          observaciones: "Peso al registrarse",
-        };
-        return [initEntry, ...serverEntries];
-      })();
-      setEntries(entriesWithInit);
-    } catch (err) {
-      console.error("Error buscar por dni:", err);
-      setMensaje(err.response?.data?.message || "Error buscando cliente");
-    }
-  };
-
   // Preparar datos para la gráfica
   const chartData = {
     labels: entries.map((e) => e.fecha),
@@ -307,7 +350,7 @@ const Seguimiento = () => {
 
   return (
     <ErrorBoundary>
-      <div className="page-container">
+      <div className="page-container seguimiento-page">
             <div className="header-row">
             <div>
               <h2>Seguimiento</h2>
@@ -356,16 +399,6 @@ const Seguimiento = () => {
                   <div className="field full">
                     <button type="submit" className="btn-primary">Guardar entrada</button>
                   </div>
-                </form>
-              </div>
-            )}
-
-            {user?.rol === "entrenador" && (
-              <div className="card mb-12">
-                <h3>Buscar cliente por DNI</h3>
-                <form onSubmit={handleBuscar} className="form-inline">
-                  <input placeholder="DNI cliente" value={dniBuscar} onChange={(e) => { setDniBuscar(e.target.value); setMensaje(""); }} />
-                  <button className="btn-primary" type="submit">Buscar</button>
                 </form>
               </div>
             )}
@@ -474,6 +507,34 @@ const Seguimiento = () => {
               ) : (
                 <p>No hay entradas aún</p>
               )}
+
+              <div className="objetivo-display" style={{ marginTop: 12 }}>
+                <strong>Objetivo:</strong>{' '}
+                {!objetivoEditing && (
+                  <>
+                    <span className="objetivo-badge">{normalizeObjetivo(objetivoValue) || 'No definido'}</span>
+                    {canEditObjetivo() && (
+                      <button className="btn-secondary btn-small" style={{ marginLeft: 8 }} onClick={() => setObjetivoEditing(true)}>Editar</button>
+                    )}
+                  </>
+                )}
+
+                {objetivoEditing && (
+                  <div className="objetivo-edit" style={{ marginTop: 8 }}>
+                    <select value={objetivoValue || ''} onChange={(e) => setObjetivoValue(e.target.value)}>
+                      <option value="">-- seleccione --</option>
+                      <option value="perder peso">perder peso</option>
+                      <option value="ganar músculo">ganar músculo</option>
+                      <option value="mejorar resistencia">mejorar resistencia</option>
+                      <option value="otro">otro</option>
+                    </select>
+                    <div style={{ marginTop: 8 }}>
+                      <button className="btn-primary btn-small" onClick={handleSaveObjetivo}>Guardar</button>
+                      <button className="btn-secondary btn-small" style={{ marginLeft: 8 }} onClick={() => { setObjetivoEditing(false); setObjetivoValue(normalizeObjetivo(clienteInfo?.objetivo)); }}>Cancelar</button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {progreso && (

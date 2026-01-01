@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import {
   getEntrenadores,
@@ -7,13 +7,17 @@ import {
   getMisContrataciones,
   cancelarContratacion,
 } from "../api/entrenadoresApi";
+import { getCodigoPersonal } from "../api/authApi";
 
 
 const Dashboard = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, token } = useContext(AuthContext);
   const [entrenadores, setEntrenadores] = useState([]);
   const [contrataciones, setContrataciones] = useState([]);
   const [mensaje, setMensaje] = useState("");
+  const [codigo, setCodigo] = useState(null);
+  const [codigoBuscar, setCodigoBuscar] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEntrenadores = async () => {
@@ -36,6 +40,21 @@ const Dashboard = () => {
     };
 
     fetchEntrenadores();
+    // Cargar codigo_personal si es cliente
+    const fetchCodigo = async () => {
+      try {
+        if (user?.rol === "cliente") {
+          const effectiveToken = token || localStorage.getItem("token");
+          if (!effectiveToken) return;
+          const res = await getCodigoPersonal(effectiveToken);
+          setCodigo(res.data?.codigo_personal || null);
+        }
+      } catch (err) {
+        console.error("Error al obtener codigo_personal:", err);
+      }
+    };
+
+    fetchCodigo();
   }, [user]);
 
   const handleContratar = async (id_entrenador) => {
@@ -77,6 +96,9 @@ const Dashboard = () => {
         Bienvenido, {user?.nombre || "Usuario"} 👋
       </h1>
       <p className="dashboard-role">Rol: {user?.rol}</p>
+      {user?.rol === "cliente" && codigo && (
+        <p className="dashboard-code">Tu código personal: <strong>{codigo}</strong></p>
+      )}
 
       {/* Botones superiores */}
       <div className="dashboard-buttons">
@@ -85,12 +107,18 @@ const Dashboard = () => {
             <Link to="/seguimiento" className="btn-seguimiento">
               Ir a Seguimiento
             </Link>
-            <Link to="/tienda" className="btn-tienda">
-              Ir a Tienda
+            <Link to="/reserva-clase" className="btn-reservar">
+              Reservar Clase
+            </Link>
+            <Link to="/resenas" className="btn-reseñas">
+              Poner Reseñas
             </Link>
           </>
         )}
 
+        <Link to="/tienda" className="btn-tienda">
+          Ir a Tienda
+        </Link>
         <button onClick={logout} className="btn-logout">
           <span className="btn-logout-text">Salir</span>
         </button>
@@ -115,13 +143,7 @@ const Dashboard = () => {
                 );
 
                 // 2. Comprobar si el cliente tiene CUALQUIER otra contratación activa
-                const tieneAlgunaActiva = contrataciones.some(
-                  (c) => c.estado === "activa"
-                );
-                
-                // NOTA: La lógica de tu rama (HEAD) era más completa que la de tu compañero, 
-                // ya que comprueba si ya tiene *alguna* contratación activa para limitar a 1 entrenador.
-                // Hemos fusionado y limpiado este bloque.
+                // Permitimos contratar múltiples entrenadores simultáneamente.
 
                 return (
                   <li key={ent.id_entrenador}>
@@ -131,21 +153,13 @@ const Dashboard = () => {
                     <p>Experiencia: {ent.experiencia} años</p>
 
                     {!contratacionActiva ? (
-                      /* Si NO está contratado actualmente: */
-                      tieneAlgunaActiva ? (
-                        /* Ya tiene otro entrenador contratado */
-                        <button disabled title="Tienes una contratación activa" className="btn-disabled">
-                          Ya tienes entrenador
-                        </button>
-                      ) : (
-                        /* Puede contratar a este entrenador */
-                        <button
-                          onClick={() => handleContratar(ent.id_entrenador)}
-                          className="btn-primary"
-                        >
-                          Contratar
-                        </button>
-                      )
+                      /* Si NO está contratado actualmente: mostrar botón contratar (permitir múltiples) */
+                      <button
+                        onClick={() => handleContratar(ent.id_entrenador)}
+                        className="btn-primary"
+                      >
+                        Contratar
+                      </button>
                     ) : (
                       /* Si SÍ está contratado actualmente: */
                       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -160,12 +174,7 @@ const Dashboard = () => {
                         </button>
                         {/* ⚠️ Nota: Esta ruta de reserva individual ya no es necesaria 
                              si usas el botón global de arriba, pero la mantenemos por consistencia. */}
-                        <Link
-                          to={`/reserva-clase`} 
-                          className="btn-primary btn-small"
-                        >
-                          Reservar Clase
-                        </Link>
+                        
                       </div>
                     )}
                   </li>
@@ -186,6 +195,28 @@ const Dashboard = () => {
           <Link to="/crear-clase" className="btn-primary">
             Crear Clase
           </Link>
+
+          <div style={{ marginTop: 16 }}>
+            <h3>Acceder al seguimiento de un cliente</h3>
+            <p className="small">Introduce el código del cliente y pulsa Buscar.</p>
+            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+              <input
+                placeholder="Código cliente"
+                value={codigoBuscar}
+                onChange={(e) => setCodigoBuscar(e.target.value)}
+              />
+              <button
+                className="btn-seguimiento"
+                onClick={() => {
+                  const codigoTrim = (codigoBuscar || "").trim();
+                  if (!codigoTrim) return alert("Introduce un código válido");
+                  navigate(`/seguimiento?codigo=${encodeURIComponent(codigoTrim)}`);
+                }}
+              >
+                Buscar
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
