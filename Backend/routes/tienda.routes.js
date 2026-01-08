@@ -9,7 +9,6 @@ import {
 
 const router = express.Router();
 
-// Solo clientes pueden acceder
 router.use(verifyToken);
 
 router.get("/productos", obtenerProductos);

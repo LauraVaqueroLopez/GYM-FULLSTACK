@@ -46,7 +46,6 @@ function Register() {
     }
 
     try {
-      // Construir payload dependiendo del rol
       const payload = { nombre, apellidos, email, dni, rol };
       if (rol === "cliente") {
         payload.fecha_nacimiento = fechaNacimiento || null;

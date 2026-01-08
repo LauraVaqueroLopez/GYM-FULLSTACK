@@ -4,10 +4,10 @@ import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-// Obtener reseñas de un entrenador (por id_usuario del entrenador)
+// Obtener reseñas de un entrenador 
 router.get("/entrenador/:id", getResenasPorEntrenador);
 
-// Crear reseña (solo clientes autenticados)
+// Crear reseña (solo clientes)
 router.post("/", verifyToken, crearResenia);
 
 export default router;

@@ -50,7 +50,6 @@ function Login() {
       setMensaje("✅ Has iniciado sesión correctamente");
       setError("");
 
-      // Redirigir
       navigate("/dashboard");
     } catch (err) {
       console.log("Login error:", err);

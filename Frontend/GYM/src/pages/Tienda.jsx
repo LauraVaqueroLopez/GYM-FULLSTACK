@@ -8,7 +8,6 @@ const Tienda = () => {
   const [errorMensaje, setErrorMensaje] = useState("");
   const navigate = useNavigate();
 
-  // Cargar productos
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -19,53 +18,38 @@ const Tienda = () => {
         setErrorMensaje("Error al cargar productos.");
       }
     };
-
     fetchProductos();
   }, []);
 
-  // Agregar producto al carrito
   const handleAgregar = async (id_producto) => {
     try {
       await agregarProducto(id_producto, 1);
-      setErrorMensaje(""); // borrar mensaje si todo OK
+      setErrorMensaje("");
       alert("Producto agregado al carrito");
     } catch (error) {
       console.error("Error al agregar producto:", error);
-      if (error.response && error.response.data && error.response.data.message) {
-        setErrorMensaje(error.response.data.message);
-      } else {
-        setErrorMensaje("No se pudo agregar el producto al carrito");
-      }
+      setErrorMensaje(error.response?.data?.message || "No se pudo agregar");
     }
   };
 
   return (
-    <div>
+    <div className="page-container tienda-page">
       <h1>Tienda</h1>
-      <div style={{ marginBottom: "16px" }}>
-        <button onClick={() => navigate("/Dashboard")}>Volver a la página principal</button>{" "}
-        <button onClick={() => navigate("/carrito")}>Ir al carrito</button>
+      <div className="tienda-header-buttons">
+        <button className="btn-secondary" onClick={() => navigate("/Dashboard")}>Volver</button>
+        <button className="btn-primary" onClick={() => navigate("/carrito")}>Ir al carrito</button>
       </div>
 
-      {errorMensaje && <p style={{ color: "red" }}>{errorMensaje}</p>}
+      {errorMensaje && <p className="error">{errorMensaje}</p>}
 
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div className="productos-grid">
         {productos.map((producto) => (
-          <div
-            key={producto.id_producto}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "16px",
-              margin: "8px",
-              width: "200px",
-            }}
-          >
+          <div key={producto.id_producto} className="producto-card">
             <h3>{producto.nombre}</h3>
-            <p>{producto.descripcion}</p>
-            <p>Precio: ${producto.precio}</p>
-            <p>Stock: {producto.stock}</p>
-            <button onClick={() => handleAgregar(producto.id_producto)}>
+            <p className="descripcion">{producto.descripcion}</p>
+            <p className="precio">Precio: ${producto.precio}</p>
+            <p className="stock">Stock: {producto.stock}</p>
+            <button className="btn-primary" onClick={() => handleAgregar(producto.id_producto)}>
               Agregar al carrito
             </button>
           </div>

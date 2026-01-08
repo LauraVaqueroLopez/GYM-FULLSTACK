@@ -6,9 +6,7 @@ import Cliente from "../models/Cliente.js";
 import Producto from "../models/Producto.js";
 import sequelize from "../config/db_connection.js";
 
-/**
- * Realizar pedido: convierte todo el carrito en un pedido
- */
+/*Realizar pedido: convierte todo el carrito en un pedido*/
 export const realizarPedido = async (req, res) => {
   const t = await sequelize.transaction();
   try {
@@ -18,7 +16,6 @@ export const realizarPedido = async (req, res) => {
     // Obtener id_cliente a partir del usuario
     let cliente = await Cliente.findOne({ where: { id_usuario } });
     if (!cliente) {
-      // Crear un registro mínimo en Clientes si no existe (permitir que entrenadores/admins compren también)
       cliente = await Cliente.create({ id_usuario, peso: null, altura: null, objetivo: null, codigo_personal: null });
     }
     const id_cliente = cliente.id_cliente;

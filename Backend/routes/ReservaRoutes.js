@@ -8,13 +8,13 @@ import {
 
 const router = express.Router();
 
-// Obtener clases filtradas por fecha (query ?fecha=YYYY-MM-DD)
+// Obtener clases filtradas por fecha 
 router.get("/clases", verifyToken, obtenerClasesPorFecha);
 
 // Reservar una clase
 router.post("/", verifyToken, reservarClase);
 
-// Obtener todas las reservas del cliente autenticado
+// Obtener todas las reservas del cliente 
 router.get("/", verifyToken, obtenerReservasCliente);
 
 export default router;

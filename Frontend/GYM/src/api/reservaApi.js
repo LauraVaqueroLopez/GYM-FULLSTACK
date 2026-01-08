@@ -10,7 +10,7 @@ export async function getClasesDisponibles(fecha) {
   if (!token) throw new Error("No hay token de autenticación.");
   
   const response = await fetch(
-    `${API_URL}/clases?fecha=${fecha}`, // 👈 Ahora solo se pasa la fecha
+    `${API_URL}/clases?fecha=${fecha}`, 
     {
       headers: { Authorization: `Bearer ${token}` }
     }
@@ -20,7 +20,7 @@ export async function getClasesDisponibles(fecha) {
     const errorData = await response.json();
     throw new Error(errorData.message || "Error al obtener clases disponibles");
   }
-  return response.json(); // Devuelve [{id_clase, nombre_clase, hora, hora_fin, plazas_disponibles, ...}]
+  return response.json(); 
 }
 
 // Crear una reserva

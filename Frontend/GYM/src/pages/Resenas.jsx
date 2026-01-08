@@ -29,7 +29,6 @@ const Resenas = () => {
             const mis = await getMisContrataciones();
             setMisContrataciones(mis || []);
           } catch (err) {
-            // ignorar errores
           }
         }
     };
@@ -82,7 +81,6 @@ const Resenas = () => {
     if (!selectedTrainerEntrenadorId) return false;
     // verificar si alguna contratacion coincide con este entrenador (por id_entrenador)
     const tieneContratacion = misContrataciones.some((c) => c.id_entrenador === selectedTrainerEntrenadorId && c.estado !== "cancelada");
-    // además, el cliente no debe haber reseñado ya
     return tieneContratacion && !reseniaexiste;
   };
 

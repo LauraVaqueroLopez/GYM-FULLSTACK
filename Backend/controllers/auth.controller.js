@@ -18,7 +18,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "DNI incorrecto" });
     }
 
-    //  SI EL USUARIO ES ENTRENADOR -> obtener id_entrenador
+    //  SI EL USUARIO ES ENTRENADOR  obtener id_entrenador
     let id_entrenador = null;
     if (user.rol === "entrenador") {
       const ent = await Entrenador.findOne({ where: { id_usuario: user.id_usuario } });
@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
       if (ent) id_entrenador = ent.id_entrenador;
     }
 
-    //  SI ES CLIENTE -> obtener id_cliente
+    //  SI ES CLIENTE  obtener id_cliente
     let id_cliente = null;
     if (user.rol === "cliente") {
       const cli = await Cliente.findOne({ where: { id_usuario: user.id_usuario } });

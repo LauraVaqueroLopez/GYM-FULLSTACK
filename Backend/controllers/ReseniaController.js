@@ -7,7 +7,7 @@ import { Op } from "sequelize";
 
 export const getResenasPorEntrenador = async (req, res) => {
   try {
-    const { id } = req.params; // espera id_usuario del entrenador
+    const { id } = req.params; 
     const resenas = await Resenia.findAll({
       where: { id_entrenador: id },
       include: [{ model: Usuario, as: "autor", attributes: ["id_usuario", "nombre", "apellidos"] }],
@@ -25,8 +25,7 @@ export const crearResenia = async (req, res) => {
     const user = req.user;
     if (!user || user.rol !== "cliente") return res.status(403).json({ message: "Solo los clientes pueden escribir reseñas" });
 
-    const { id_entrenador, puntuacion, comentario } = req.body; // id_entrenador es id_usuario del entrenador
-
+    const { id_entrenador, puntuacion, comentario } = req.body; 
     // buscar cliente
     const cliente = await Cliente.findOne({ where: { id_usuario: user.id_usuario } });
     if (!cliente) return res.status(404).json({ message: "Cliente no encontrado" });

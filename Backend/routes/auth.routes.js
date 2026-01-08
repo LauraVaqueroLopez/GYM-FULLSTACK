@@ -12,9 +12,7 @@ dotenv.config();
 
 const router = express.Router();
 
-/* =========================
-   REGISTER
-========================= */
+/* REGISTER*/
 router.post("/register", async (req, res) => {
   const { nombre, apellidos = "", email, dni, rol } = req.body;
 
@@ -139,7 +137,6 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     console.error("Error en /register:", error);
     if (error instanceof UniqueConstraintError) {
-      // extraer campo conflictivo si está disponible
       const field = error.errors && error.errors[0] && error.errors[0].path;
       return res.status(400).json({ message: field ? `Valor duplicado en ${field}` : "Valor duplicado" });
     }
@@ -150,9 +147,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-/* =========================
-   LOGIN
-========================= */
+/*LOGIN*/
 router.post("/login", async (req, res) => {
   const { email, dni } = req.body;
 
@@ -186,7 +181,6 @@ router.post("/login", async (req, res) => {
       return res.status(500).json({ message: "JWT_SECRET no definido en .env" });
     }
 
-    // Generar JWT
     const token = jwt.sign(
       {
         id_usuario: user.id_usuario,
@@ -217,9 +211,7 @@ router.post("/login", async (req, res) => {
 
 export default router;
 
-/* =========================
-   GET CODIGO PERSONAL (cliente autenticado)
-========================= */
+/* GET CODIGO PERSONAL (cliente autenticado) */
 router.get("/me/codigo", verifyToken, async (req, res) => {
   try {
     // Buscar cliente por id_usuario
@@ -233,10 +225,7 @@ router.get("/me/codigo", verifyToken, async (req, res) => {
   }
 });
 
-/* =========================
-   BUSCAR CLIENTE POR CÓDIGO PERSONAL (entrenador/admin)
-   Ej: GET /api/auth/cliente/codigo/123456
-========================= */
+/* BUSCAR CLIENTE POR CÓDIGO PERSONAL (entrenador/admin)*/
 router.get("/cliente/codigo/:codigo", verifyToken, async (req, res) => {
   try {
     if (req.user.rol !== "entrenador" && req.user.rol !== "admin") {

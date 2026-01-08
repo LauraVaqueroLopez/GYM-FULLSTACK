@@ -12,7 +12,6 @@ export const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // decoded debe contener id_usuario, rol, id_cliente o id_entrenador
     req.user = {
       id_usuario: decoded.id_usuario,
       rol: decoded.rol,

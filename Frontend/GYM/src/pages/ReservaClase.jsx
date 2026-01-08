@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getClasesDisponibles, crearReserva } from "../api/reservaApi";
-import { useNavigate } from "react-router-dom"; // Importamos useNavigate
+import { useNavigate } from "react-router-dom";
 
 const ReservaClase = () => {
   const [fecha, setFecha] = useState("");
@@ -8,10 +8,8 @@ const ReservaClase = () => {
   const [claseId, setClaseId] = useState("");
   const [mensaje, setMensaje] = useState("Selecciona una fecha para ver las clases de tu entrenador.");
   
-  // Inicializamos el hook de navegación
   const navigate = useNavigate();
 
-  // Función para manejar la navegación al Dashboard
   const goToDashboard = () => {
  
     navigate('/Dashboard'); 

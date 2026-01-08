@@ -10,41 +10,50 @@
 }
 
 *{box-sizing:border-box}
-body{
+body {
   font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
-  background: linear-gradient(180deg, #eafaf0 0%, var(--bg) 100%);
-  color:#111827;
-  -webkit-font-smoothing:antialiased;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  background-image: url('/images/bg-gym.jpeg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
-.login-container{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:40px 16px;
-  /* asegurar centrado incluso si otras reglas intentan anularlo */
-  margin-left:420px;
-  margin-right: -100px;
-
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;        
+  align-items: center;    
+  justify-content: center;
+  padding: 20px;
+  background: transparent; 
+  margin: 0 !important;    
 }
 
-.login-form{
-  width:100%;
-  max-width:720px; /* ligeramente más ancho en escritorio */
-  background:var(--card);
-  border-radius:var(--radius);
-  padding:28px;
-  box-shadow:0 10px 30px rgba(16,24,40,0.08);
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  margin-left:200px;
+.login-form {
+  width: 100%;
+  max-width: 450px;       
+  background: #ffffff !important; 
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 !important;   
 }
 
-/* offsets específicos de página para login/registro */
-.login-form--login{ margin-left:300px !important }
-.login-form--register{ margin-left:200px !important }
+.login-form--login, 
+.login-form--register { 
+  margin-left: 750px !important; 
+}
+
+
+
 
 .login-form h2{
   margin:0 0 6px 0;
@@ -102,7 +111,6 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 }
 .login-form button:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(18, 116, 57, 0.18)}
 
-/* Button utilities used throughout the app */
 .btn-primary{
   padding:8px 12px;
   border-radius:8px;
@@ -124,7 +132,7 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   font-weight:600;
   cursor:pointer;
 }
-.btn-secondary:hover{background:#f6fff8}
+.btn-secondary:hover{background:#000000}
 
 .btn-danger{
   padding:7px 10px;
@@ -137,12 +145,10 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 }
 .btn-danger:hover{opacity:0.95}
 
-/* small inline variant for compact controls inside lists */
 .btn-small{ padding:6px 8px; font-size:0.9rem; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; white-space:nowrap; min-width:64px }
 .btn-small.btn-primary{ padding:6px 10px }
 .btn-small + .btn-small{ margin-left:6px }
 
-/* If inline controls run out of space, allow horizontal scrolling instead of wrapping */
 .inline-controls{ display:flex; gap:8px; align-items:center; flex-wrap:nowrap; overflow-x:auto }
 .inline-controls::-webkit-scrollbar{ height:6px }
 .inline-controls::-webkit-scrollbar-thumb{ background:rgba(15,81,50,0.12); border-radius:6px }
@@ -155,16 +161,13 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .signup-link{color:#0f5132; font-weight:600; text-decoration:none}
 .signup-link:hover{color:#083a24; text-decoration:underline}
 
-/* permitir scroll en formularios largos en pantallas pequeñas */
 @media (max-width:520px){
   .login-form{max-width:420px; padding:20px}
   .row{flex-direction:column}
 }
 
-/* auxiliares extra */
 .divider{height:1px;background:#f1f5f9;margin:8px -28px}
 
-/* contenedor central global para todas las páginas */
 .app-center{
   min-height:100vh;
   display:flex;
@@ -177,17 +180,14 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   max-width:960px;
 }
 
-/* Desplazar contenido un poco a la derecha para alinearlo con el layout principal */
 .page-container{ margin-left:480px }
 
-/* Estilos de la página Seguimiento */
 .header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-left: 5%;}
 .registro{font-size:12px;color:#6b7280}
 .right-align{text-align:right}
 .seguimiento-grid{display:block}
 .seguimiento-columns{display:grid;grid-template-columns:320px minmax(560px,1fr) 360px;column-gap:180px;row-gap:28px;padding: 5%;}
 
-/* Quitar offset lateral sólo para la página de seguimiento */
 .page-container.seguimiento-page{ margin-left: 0; padding-left: 0; }
 .col-min{min-width:0}
 .mb-12{margin-bottom:12px}
@@ -207,10 +207,72 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .pre-wrap{white-space:pre-wrap}
 .objetivo-badge{display:inline-block;padding:8px 12px}
 
-/* Hacer seguimiento responsive */
 @media (max-width:960px){
   .seguimiento-columns{grid-template-columns:1fr;}
   .right-col{width:100%;min-width:unset}
+}
+
+
+.page-container.seguimiento-page { 
+  margin: 20px auto !important;
+  padding: 30px !important;
+  max-width: 1500px; 
+  
+  background: rgba(255, 255, 255, 0.92) !important; 
+  backdrop-filter: blur(10px); 
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 0 10px;
+}
+
+.header-row h2, .header-row h1 {
+  color: #0f172a !important;
+  font-weight: 800;
+}
+
+.seguimiento-columns {
+  display: grid;
+  grid-template-columns: 320px minmax(500px, 1fr) 360px;
+  column-gap: 40px; 
+  row-gap: 28px;
+  padding: 10px;
+}
+
+.seguimiento-columns > div {
+  background: rgba(255, 255, 255, 0.5); 
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.registro { font-size: 13px; color: #4b5563; font-weight: 500; }
+.right-align { text-align: right; }
+.col-min { min-width: 0; }
+.mb-12 { margin-bottom: 12px; }
+.right-col { width: 100%; max-width: 420px; min-width: 300px; }
+
+@media (max-width: 1200px) {
+  .seguimiento-columns {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+@media (max-width: 960px) {
+  .seguimiento-columns {
+    grid-template-columns: 1fr;
+  }
+  .page-container.seguimiento-page {
+    width: 98%;
+    padding: 15px !important;
+  }
 }
 
 .entries-toggle{display:flex;gap:12px;align-items:center;justify-content:flex-end;margin-top:12px}
@@ -219,7 +281,6 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .objetivo-edit select{padding:8px;border-radius:8px;border:1px solid #e6e9ef}
 .objetivo-edit{display:flex;flex-direction:column}
 
-/* Diseño de la lista de entrenadores: reservar área fija a la derecha para botones de acción */
 .trainer-row{display:flex;align-items:center;gap:12px}
 .trainer-info{flex:1;min-width:0}
 .trainer-actions{width:180px;display:flex;justify-content:flex-end;gap:40px;flex-shrink:0;flex-wrap:nowrap;overflow-x:auto}
@@ -229,14 +290,14 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   .trainer-actions{width:140px}
 }
 
-/* Estilos del Dashboard movidos desde inline/clases en el componente */
 .dashboard-container{
-  /* center and enlarge the dashboard card */
-  max-width:1100px;
+  max-width:1400px;
   width: 90%;
-  margin-left:480px;
-  background: var(--card);
-  padding:36px 44px;
+  margin-left:400px;
+  padding: 40px 40px; 
+  min-height: 80vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);          
   border-radius:14px;
   box-shadow:0 14px 40px rgba(16,24,40,0.06);
 }
@@ -256,22 +317,19 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .btn-reseñas{padding:7px 12px;border-radius:10px;background:#2563eb;color:#fff;border:none;font-weight:600;cursor:pointer;display:inline-block}
 .btn-reseñas:hover{background:#1e40af}
 
-/* estabilizar el botón de logout para evitar recorte de texto en la carga/hidratación del stylesheet */
 .btn-logout{display:inline-block;white-space:nowrap!important;min-width:140px;text-align:center;overflow:visible}
 .btn-logout-text{display:inline-block;white-space:nowrap!important}
 
-/* ajustes específicos de Login/Registro movidos desde componentes */
 .form-note-center{ text-align:center; margin-top:10px }
 
-/* asegurar que los botones de formulario coincidan con el estilo de la app (register/login) */
 .login-form button, .login-form input[type='submit'], .login-form button[type='submit']{ padding:12px 14px; border-radius:10px; border:none; background:linear-gradient(90deg,var(--primary),var(--primary-600)); color:#fff; font-weight:600; cursor:pointer }
 .login-form button:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(18,116,57,0.18) }
 
-/* Estilos específicos para la página de Reseñas */
 .resenas-page{
   margin-left: 400px;
   padding: 40px 50px;
-  background-color: white;
+  background: rgba(255, 255, 255, 0.95); 
+  backdrop-filter: blur(8px);           
   border-radius: 20px;
   width: 100%;
 }
@@ -281,7 +339,8 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .reserva-clase-container {
   max-width: 720px;
   margin: 0 auto;
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.95); 
+  backdrop-filter: blur(8px);           
   padding: 28px;
   border-radius: var(--radius);
   box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
@@ -290,7 +349,6 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   gap: 16px;
 }
 
-/* mover reserva-clase ligeramente a la derecha en pantallas amplias */
 .reserva-clase-container{ margin-left:480px }
 
 .selector-fecha,
@@ -350,7 +408,6 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   text-align: center;
 }
 
-/* ===== Estilos para CrearClase ===== */
 .page-container h2{
   font-size:1.6rem;
   margin-bottom:10px;
@@ -395,7 +452,6 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .page-container .error{ text-align:left; margin-top:8px }
 .page-container .success{ text-align:center; margin-top:8px }
 
-/* Layout for hora inicio / hora fin in CrearClase */
 .time-row{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -407,8 +463,7 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
 .time-field label{ display:block; margin-bottom:6px; font-weight:700; color:#0b2f1f }
 .time-field input[type="time"]{ width:100%; max-width:100%; }
 
-/* ===== Estilos para ReservaClase (ajustes globales para inputs/selects/botones usados allí) ===== */
-/* Target combinaciones comunes en ReservaClase.jsx sin cambiar JS */
+
 input[type="date"]{
   padding:10px 12px;
   border-radius:10px;
@@ -425,7 +480,6 @@ select{
   max-width:520px;
 }
 
-/* Botón volver en ReservaClase: apariencia más ligera y coherente */
 button[style]{
   background:transparent !important;
   border:1px solid #e6eef0 !important;
@@ -434,10 +488,8 @@ button[style]{
   padding:8px 12px !important;
 }
 
-/* Reservar -> usar estilo primario similar al resto */
 button[disabled]{ opacity:0.6 }
 
-/* Asegurar que llamados a reservar hereden el estilo primario si no tienen clase */
 button:not([style]):not(.btn-secondary):not(.btn-danger){
   padding:10px 14px;
   border-radius:10px;
@@ -448,7 +500,6 @@ button:not([style]):not(.btn-secondary):not(.btn-danger){
   cursor:pointer;
 }
 
-/* pequeños ajustes responsivos */
 @media (max-width:720px){
   .page-container{ padding:20px }
   input[type="date"], select { max-width:100% }
@@ -456,33 +507,96 @@ button:not([style]):not(.btn-secondary):not(.btn-danger){
   .time-row{ grid-template-columns: 1fr; gap:10px }
 }
 
+
+.tienda-page {
+  display: block !important;
+  width: 95% !important;
+  max-width: 1830px !important;
+  margin: 40px auto !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  padding: 30px !important;
+  border-radius: 20px !important;
+  text-align: center; 
+}
+
+.tienda-header-buttons {
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.productos-grid {
+  display: flex !important;        
+  flex-wrap: wrap !important;      
+  flex-direction: row !important;  
+  justify-content: center !important; 
+  gap: 20px !important;            
+  padding: 20px 0 !important;
+  width: 100% !important;
+}
+
+.producto-card {
+  flex: 0 1 250px !important;      
+  min-width: 250px !important;      
+  background: #ffffff !important;
+  border: 1px solid #ddd !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+  
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  min-height: 350px !important;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.producto-card h3 {
+  margin: 0 0 10px 0;
+  color: #111827;
+}
+
+.producto-card .precio {
+  font-weight: 700;
+  color: #4bad7f;
+  font-size: 1.2rem;
+}
+
+.producto-card .descripcion {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
 .producto {
-  display: grid; /* activar grid layout */
-  grid-template-columns: repeat(6, 1fr); /* 6 columnas de igual ancho */
-  gap: 16px; /* espacio entre productos */
+  display: grid; 
+  grid-template-columns: repeat(6, 1fr); 
+  gap: 16px; 
   padding: 16px;
   border-radius: 8px;
 }
 
 .producto > div {
-  background: var(--card);
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  text-align: center;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  opacity: 1 !important;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .carrito-header {
   position: sticky;
-  top: 0; /* se queda pegado al top del contenedor */
-  background: var(--card); /* mismo fondo que el carrito */
+  top: 0;
+  background: var(--card); 
   padding: 16px;
-  z-index: 10; /* para que esté por encima del grid */
+  z-index: 10; 
   display: flex;
-  justify-content: space-between; /* separar botones y título */
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e6e6e6;
 }
@@ -491,7 +605,8 @@ button:not([style]):not(.btn-secondary):not(.btn-danger){
 .carrito-container {
   max-width: 100%x;
   margin: 0 auto;
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.95); 
+  backdrop-filter: blur(8px);           
   padding: 28px;
   border-radius: var(--radius);
   box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
@@ -504,7 +619,8 @@ button:not([style]):not(.btn-secondary):not(.btn-danger){
 .reservar-container {
   max-width: 720px;
   margin: 0 auto;
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);       
   padding: 28px;
   border-radius: var(--radius);
   box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);

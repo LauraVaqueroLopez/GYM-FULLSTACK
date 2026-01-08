@@ -1,9 +1,7 @@
 // controllers/ProductoController.js
 import Producto from "../models/Producto.js";
 
-/**
- * Obtener todos los productos
- */
+/*Obtener todos los productos*/
 export const obtenerProductos = async (req, res) => {
   try {
     const productos = await Producto.findAll({ order: [["nombre", "ASC"]] });
@@ -14,9 +12,7 @@ export const obtenerProductos = async (req, res) => {
   }
 };
 
-/**
- * Crear producto (solo admin)
- */
+/*Crear producto (solo admin)*/
 export const crearProducto = async (req, res) => {
   try {
     const { nombre, descripcion, precio, stock } = req.body;

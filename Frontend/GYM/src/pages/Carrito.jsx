@@ -46,7 +46,7 @@ const Carrito = () => {
   const handleRealizarPedido = async () => {
     try {
       await apiRealizarPedido();
-      setCarrito([]); // Vaciar el carrito en la interfaz
+      setCarrito([]); 
       setErrorMensaje("");
       alert("Pedido realizado correctamente");
     } catch (error) {

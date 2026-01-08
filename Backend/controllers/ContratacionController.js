@@ -14,7 +14,7 @@ export const contratarEntrenador = async (req, res) => {
       return res.status(403).json({ message: "Solo los clientes pueden contratar entrenadores" });
     }
 
-    // Buscar el cliente asociado al usuario autenticado
+    // Buscar el cliente asociado al usuario 
     const cliente = await Cliente.findOne({ where: { id_usuario: user.id_usuario } });
     if (!cliente) {
       return res.status(404).json({ message: "Cliente no encontrado" });
@@ -26,7 +26,6 @@ export const contratarEntrenador = async (req, res) => {
       return res.status(404).json({ message: "Entrenador no encontrado" });
     }
 
-    // Evitar duplicados para el mismo entrenador-client (pero permitir múltiples entrenadores)
     const existingSame = await Contratacion.findOne({
       where: { id_cliente: cliente.id_cliente, id_entrenador, estado: "activa" },
     });
@@ -51,9 +50,7 @@ export const contratarEntrenador = async (req, res) => {
   }
 };
 
-/**
- *Obtener las contrataciones de un cliente autenticado
- */
+/* Obtener las contrataciones de un cliente autenticado */
 export const obtenerContratacionesCliente = async (req, res) => {
   try {
     const user = req.user;
@@ -78,9 +75,7 @@ export const obtenerContratacionesCliente = async (req, res) => {
   }
 };
 
-/**
- * Cancelar una contratación
- */
+/*Cancelar una contratación*/
 export const cancelarContratacion = async (req, res) => {
   try {
     const { id } = req.params;
@@ -99,9 +94,7 @@ export const cancelarContratacion = async (req, res) => {
   }
 };
 
-/**
- * Obtener lista de entrenadores disponibles
- */
+/*Obtener lista de entrenadores disponibles*/
 export const getEntrenadores = async (req, res) => {
   try {
     const entrenadores = await Entrenador.findAll({

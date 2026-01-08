@@ -8,7 +8,6 @@ import dotenv from "dotenv";
 dotenv.config();
 const router = express.Router();
 
-// Middleware simple para extraer usuario del token (si existe)
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: "No autorizado" });
@@ -27,7 +26,6 @@ router.post("/", authMiddleware, async (req, res) => {
   try {
     const { id_usuario, fecha, peso, altura, calorias_quemadas, observaciones } = req.body;
 
-    // Si el usuario no es admin/entrenador y no coincide con el id_usuario del token, denegar
     if (req.user.rol === "cliente" && req.user.id_usuario !== id_usuario) {
       return res.status(403).json({ message: "No puedes crear entradas para otros usuarios" });
     }
@@ -52,7 +50,6 @@ router.post("/", authMiddleware, async (req, res) => {
 router.get("/usuario/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
-    // Clientes sólo pueden ver sus propias entradas
     if (req.user.rol === "cliente" && req.user.id_usuario !== id) {
       return res.status(403).json({ message: "No autorizado para ver estas entradas" });
     }
@@ -60,7 +57,6 @@ router.get("/usuario/:id", authMiddleware, async (req, res) => {
     const entries = await Seguimiento.findAll({ where: { id_usuario: id }, order: [["fecha", "ASC"]] });
     const cliente = await Cliente.findOne({ where: { id_usuario: id } });
     const user = await Usuario.findByPk(id);
-    // return entrads y fecha registro
     return res.status(200).json({ entries, cliente, user: user ? { id_usuario: user.id_usuario, nombre: user.nombre, apellidos: user.apellidos, dni: user.dni, fecha_registro: user.fecha_registro } : null });
   } catch (error) {
     console.error("Error obteniendo entradas:", error);
@@ -68,7 +64,6 @@ router.get("/usuario/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// Obtener entradas por dni (entrenador)
 router.get("/dni/:dni", authMiddleware, async (req, res) => {
   try {
     if (req.user.rol !== "entrenador" && req.user.rol !== "admin") {

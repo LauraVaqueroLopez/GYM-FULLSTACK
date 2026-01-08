@@ -24,21 +24,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `carrito`
+-- Estructura de tabla para la tabla `Carrito`
 --
 
-CREATE TABLE `carrito` (
-  `id_carrito` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Carrito` (
+  `id_Carrito` char(36) NOT NULL DEFAULT (UUID()),
   `id_usuario` char(36) NOT NULL,
   `id_producto` char(36) NOT NULL,
   `cantidad` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `carrito`
+-- Volcado de datos para la tabla `Carrito`
 --
 
-INSERT INTO `carrito` (`id_carrito`, `id_usuario`, `id_producto`, `cantidad`) VALUES
+INSERT INTO `Carrito` (`id_Carrito`, `id_usuario`, `id_producto`, `cantidad`) VALUES
 ('10314028-9fde-4bcb-8bc2-784e82f5bb30', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'ea5218be-d6a3-11f0-8377-2c58b9490181', 1),
 ('2e32a3c4-f35b-45c4-8d3e-39f27f917f95', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'ea5220e8-d6a3-11f0-8377-2c58b9490181', 1),
 ('3a43bb08-d83c-4688-befb-e4ae5f4da710', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'ea521d5a-d6a3-11f0-8377-2c58b9490181', 1),
@@ -48,11 +48,11 @@ INSERT INTO `carrito` (`id_carrito`, `id_usuario`, `id_producto`, `cantidad`) VA
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `clases`
+-- Estructura de tabla para la tabla `Clases`
 --
 
-CREATE TABLE `clases` (
-  `id_clase` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Clases` (
+  `id_clase` char(36) NOT NULL DEFAULT (UUID()),
   `nombre_clase` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `id_entrenador` char(36) DEFAULT NULL,
@@ -63,10 +63,10 @@ CREATE TABLE `clases` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `clases`
+-- Volcado de datos para la tabla `Clases`
 --
 
-INSERT INTO `clases` (`id_clase`, `nombre_clase`, `descripcion`, `id_entrenador`, `fecha`, `hora`, `plazas_disponibles`, `hora_fin`) VALUES
+INSERT INTO `Clases` (`id_clase`, `nombre_clase`, `descripcion`, `id_entrenador`, `fecha`, `hora`, `plazas_disponibles`, `hora_fin`) VALUES
 ('d4bab64a-d6a3-11f0-8377-2c58b9490181', 'CrossFit', 'Entrenamiento funcional de alta intensidad', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', '2025-12-15', '10:00:00', 14, '11:00:00'),
 ('d4bae5ba-d6a3-11f0-8377-2c58b9490181', 'Yoga', 'Clase de yoga para todos los niveles', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', '2025-12-16', '18:00:00', 20, '19:00:00'),
 ('d4bae8f3-d6a3-11f0-8377-2c58b9490181', 'Boxeo', 'Entrenamiento de boxeo para principiantes', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', '2025-12-17', '12:00:00', 12, '13:00:00');
@@ -74,48 +74,48 @@ INSERT INTO `clases` (`id_clase`, `nombre_clase`, `descripcion`, `id_entrenador`
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `clientes`
+-- Estructura de tabla para la tabla `Clientes`
 --
 
-CREATE TABLE `clientes` (
-  `id_cliente` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Clientes` (
+  `id_cliente` char(36) NOT NULL DEFAULT (UUID()),
   `id_usuario` char(36) NOT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
   `peso` decimal(5,2) DEFAULT NULL,
   `altura` decimal(5,2) DEFAULT NULL,
-  `objetivo` enum('perder peso','ganar m?sculo','mejorar resistencia','otro') DEFAULT NULL,
+  `objetivo` enum('perder peso','ganar musculo','mejorar resistencia','otro') DEFAULT NULL,
   `codigo_personal` char(6) DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `clientes`
+-- Volcado de datos para la tabla `Clientes`
 --
 
-INSERT INTO `clientes` (`id_cliente`, `id_usuario`, `fecha_nacimiento`, `peso`, `altura`, `objetivo`, `codigo_personal`) VALUES
+INSERT INTO `Clientes` (`id_cliente`, `id_usuario`, `fecha_nacimiento`, `peso`, `altura`, `objetivo`, `codigo_personal`) VALUES
 ('1d7d931d-b5d7-4cd0-a24c-407a9cc0bc68', '47e659e7-3d59-4fb8-be61-81dd35b6060b', '0006-06-06', 143.00, 167.00, '', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `contrataciones`
+-- Estructura de tabla para la tabla `Contrataciones`
 --
 
-CREATE TABLE `contrataciones` (
-  `id_contratacion` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Contrataciones` (
+  `id_contratacion` char(36) NOT NULL DEFAULT (UUID()),
   `id_cliente` char(36) NOT NULL,
   `id_entrenador` char(36) NOT NULL,
-  `fecha_contratacion` date DEFAULT curdate(),
+  `fecha_contratacion` date DEFAULT (curdate()),
   `estado` enum('activa','finalizada','cancelada') DEFAULT 'activa'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detallepedidos`
+-- Estructura de tabla para la tabla `Detallepedidos`
 --
 
-CREATE TABLE `detallepedidos` (
-  `id_detalle` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Detallepedidos` (
+  `id_detalle` char(36) NOT NULL DEFAULT (UUID()),
   `id_pedido` char(36) NOT NULL,
   `id_producto` char(36) NOT NULL,
   `cantidad` int(11) NOT NULL CHECK (`cantidad` > 0),
@@ -125,11 +125,11 @@ CREATE TABLE `detallepedidos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `entrenadores`
+-- Estructura de tabla para la tabla `Entrenadores`
 --
 
-CREATE TABLE `entrenadores` (
-  `id_entrenador` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Entrenadores` (
+  `id_entrenador` char(36) NOT NULL DEFAULT (UUID()),
   `id_usuario` char(36) NOT NULL,
   `especialidad` varchar(100) DEFAULT NULL,
   `experiencia` int(11) DEFAULT NULL,
@@ -137,10 +137,10 @@ CREATE TABLE `entrenadores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `entrenadores`
+-- Volcado de datos para la tabla `Entrenadores`
 --
 
-INSERT INTO `entrenadores` (`id_entrenador`, `id_usuario`, `especialidad`, `experiencia`, `descripcion`) VALUES
+INSERT INTO `Entrenadores` (`id_entrenador`, `id_usuario`, `especialidad`, `experiencia`, `descripcion`) VALUES
 ('03710f82-58ee-4fb0-b7df-69516667b695', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', 'Ganancia muscular', 5, 'sientete vivo'),
 ('2ddedade-95d5-4c8a-be99-73001dbf7b68', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 'Nutricion', 3, 'experimentada'),
 ('c6c62a44-138b-42f7-b414-71dabdead094', '5edc10db-0728-4cc7-93c3-e31a78fd34ce', 'Ganar masa y pérdida de peso', 3, 'experto en nutricion');
@@ -148,13 +148,13 @@ INSERT INTO `entrenadores` (`id_entrenador`, `id_usuario`, `especialidad`, `expe
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pedidos`
+-- Estructura de tabla para la tabla `Pedidos`
 --
 
-CREATE TABLE `pedidos` (
-  `id_pedido` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Pedidos` (
+  `id_pedido` char(36) NOT NULL DEFAULT (UUID()),
   `id_cliente` char(36) NOT NULL,
-  `fecha_pedido` date DEFAULT curdate(),
+  `fecha_pedido` date DEFAULT (curdate()),
   `total` decimal(10,2) DEFAULT 0.00,
   `estado` enum('pendiente','pagado','enviado') DEFAULT 'pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -162,11 +162,11 @@ CREATE TABLE `pedidos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `productos`
+-- Estructura de tabla para la tabla `Productos`
 --
 
-CREATE TABLE `productos` (
-  `id_producto` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Productos` (
+  `id_producto` char(36) NOT NULL DEFAULT (UUID()),
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `precio` decimal(10,2) NOT NULL,
@@ -175,10 +175,10 @@ CREATE TABLE `productos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `productos`
+-- Volcado de datos para la tabla `Productos`
 --
 
-INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `precio`, `stock`, `categoria`) VALUES
+INSERT INTO `Productos` (`id_producto`, `nombre`, `descripcion`, `precio`, `stock`, `categoria`) VALUES
 ('62e911eb-d6a3-11f0-8377-2c58b9490181', 'Prote?na Whey', 'Prote?na de suero concentrada', 29.99, 51, 'suplementos'),
 ('62eb1205-d6a3-11f0-8377-2c58b9490181', 'Mancuernas 10kg', 'Par de mancuernas de 10kg', 45.00, 22, 'equipamiento'),
 ('ea509ab3-d6a3-11f0-8377-2c58b9490181', 'Prote?na Whey Vainilla', 'Prote?na de suero con sabor a vainilla', 29.99, 50, 'Suplementos'),
@@ -205,23 +205,23 @@ INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `precio`, `stoc
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `resenias`
+-- Estructura de tabla para la tabla `Resenias`
 --
 
-CREATE TABLE `resenias` (
-  `id_resenia` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Resenias` (
+  `id_resenia` char(36) NOT NULL DEFAULT (UUID()),
   `id_usuario` char(36) NOT NULL,
   `id_entrenador` char(36) NOT NULL,
   `puntuacion` tinyint(4) DEFAULT NULL CHECK (`puntuacion` between 1 and 5),
   `comentario` text DEFAULT NULL,
-  `fecha` date DEFAULT curdate()
+  `fecha` date DEFAULT (curdate())
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `resenias`
+-- Volcado de datos para la tabla `Resenias`
 --
 
-INSERT INTO `resenias` (`id_resenia`, `id_usuario`, `id_entrenador`, `puntuacion`, `comentario`, `fecha`) VALUES
+INSERT INTO `Resenias` (`id_resenia`, `id_usuario`, `id_entrenador`, `puntuacion`, `comentario`, `fecha`) VALUES
 ('02b8608e-f7b4-49f3-be9f-d883b360937e', '91e1bfba-a205-471a-a15c-da24292dc913', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', 5, 'asdasd', '2025-11-30'),
 ('1b64ea50-ec51-4081-af11-0822e1bf86a4', '0789b029-4c63-47fa-8f66-3414f4c96b4b', '1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 5, 'me ayudó en press banca (no sé lo que significa)', '2025-12-02'),
 ('6d293589-728c-4f7f-8739-2fbe319dec56', '395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'cc9010b1-1de8-4791-9ba3-d32ba9d8a1e1', 5, 'sdfsfdf', '2025-11-30'),
@@ -231,26 +231,26 @@ INSERT INTO `resenias` (`id_resenia`, `id_usuario`, `id_entrenador`, `puntuacion
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reservas`
+-- Estructura de tabla para la tabla `Reservas`
 --
 
-CREATE TABLE `reservas` (
-  `id_reserva` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Reservas` (
+  `id_reserva` char(36) NOT NULL DEFAULT (UUID()),
   `id_cliente` char(36) NOT NULL,
   `id_clase` char(36) NOT NULL,
-  `fecha_reserva` date DEFAULT curdate()
+  `fecha_reserva` date DEFAULT (curdate())
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `seguimiento`
+-- Estructura de tabla para la tabla `Seguimiento`
 --
 
-CREATE TABLE `seguimiento` (
-  `id_seguimiento` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Seguimiento` (
+  `id_Seguimiento` char(36) NOT NULL DEFAULT (UUID()),
   `id_usuario` char(36) NOT NULL,
-  `fecha` date DEFAULT curdate(),
+  `fecha` date DEFAULT (curdate()),
   `peso` decimal(5,2) DEFAULT NULL,
   `altura` decimal(5,2) DEFAULT NULL,
   `calorias_quemadas` float DEFAULT NULL,
@@ -258,10 +258,10 @@ CREATE TABLE `seguimiento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `seguimiento`
+-- Volcado de datos para la tabla `Seguimiento`
 --
 
-INSERT INTO `seguimiento` (`id_seguimiento`, `id_usuario`, `fecha`, `peso`, `altura`, `calorias_quemadas`, `observaciones`) VALUES
+INSERT INTO `Seguimiento` (`id_Seguimiento`, `id_usuario`, `fecha`, `peso`, `altura`, `calorias_quemadas`, `observaciones`) VALUES
 ('2804b95d-f911-4858-86e2-f67851c723ed', '91e1bfba-a205-471a-a15c-da24292dc913', '2025-11-30', 234.00, 136.00, 123, '1231321'),
 ('d413db98-a205-4e1f-8e2f-e9fb3a749df4', '0789b029-4c63-47fa-8f66-3414f4c96b4b', '2025-12-02', 45.00, 150.00, 120, 'estoy felis'),
 ('f2c627c9-fa60-4ad4-bb6e-ea5538e03a53', '91e1bfba-a205-471a-a15c-da24292dc913', '2025-11-30', 130.00, 130.00, 123, 'sefssesf');
@@ -269,24 +269,24 @@ INSERT INTO `seguimiento` (`id_seguimiento`, `id_usuario`, `fecha`, `peso`, `alt
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Estructura de tabla para la tabla `Usuarios`
 --
 
-CREATE TABLE `usuarios` (
-  `id_usuario` char(36) NOT NULL DEFAULT uuid(),
+CREATE TABLE `Usuarios` (
+  `id_usuario` char(36) NOT NULL DEFAULT (UUID()),
   `nombre` varchar(100) NOT NULL,
   `apellidos` varchar(100) DEFAULT NULL,
   `email` varchar(150) NOT NULL,
   `dni` varchar(20) NOT NULL,
   `rol` enum('cliente','entrenador','admin') NOT NULL,
-  `fecha_registro` date DEFAULT curdate()
+  `fecha_registro` date DEFAULT (curdate())
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Volcado de datos para la tabla `Usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellidos`, `email`, `dni`, `rol`, `fecha_registro`) VALUES
+INSERT INTO `Usuarios` (`id_usuario`, `nombre`, `apellidos`, `email`, `dni`, `rol`, `fecha_registro`) VALUES
 ('0789b029-4c63-47fa-8f66-3414f4c96b4b', 'panceta', 'martinez vaquero', 'panceta.mv@gmail.com', '48160603Y', 'cliente', '2025-12-02'),
 ('1511e744-41c6-4b43-a6fb-f4f9ab32ec47', 'Alicia', 'Pedraza', 'ali@gmail.com', '111111111L', 'entrenador', '2025-11-30'),
 ('395d3956-5592-4d39-a77a-4cb5e6aaf0d5', 'Alicia', 'Pedraza', 'lo@gmail.com', '444444444L', 'cliente', '2025-11-30'),
@@ -304,91 +304,91 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellidos`, `email`, `dni`, `ro
 --
 
 --
--- Indices de la tabla `carrito`
+-- Indices de la tabla `Carrito`
 --
-ALTER TABLE `carrito`
-  ADD PRIMARY KEY (`id_carrito`),
+ALTER TABLE `Carrito`
+  ADD PRIMARY KEY (`id_Carrito`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_producto` (`id_producto`);
 
 --
--- Indices de la tabla `clases`
+-- Indices de la tabla `Clases`
 --
-ALTER TABLE `clases`
+ALTER TABLE `Clases`
   ADD PRIMARY KEY (`id_clase`),
   ADD KEY `id_entrenador` (`id_entrenador`);
 
 --
--- Indices de la tabla `clientes`
+-- Indices de la tabla `Clientes`
 --
-ALTER TABLE `clientes`
+ALTER TABLE `Clientes`
   ADD PRIMARY KEY (`id_cliente`),
   ADD UNIQUE KEY `id_usuario` (`id_usuario`),
   ADD UNIQUE KEY `uniq_codigo_personal` (`codigo_personal`);
 
 --
--- Indices de la tabla `contrataciones`
+-- Indices de la tabla `Contrataciones`
 --
-ALTER TABLE `contrataciones`
+ALTER TABLE `Contrataciones`
   ADD PRIMARY KEY (`id_contratacion`),
   ADD KEY `id_cliente` (`id_cliente`),
   ADD KEY `id_entrenador` (`id_entrenador`);
 
 --
--- Indices de la tabla `detallepedidos`
+-- Indices de la tabla `Detallepedidos`
 --
-ALTER TABLE `detallepedidos`
+ALTER TABLE `Detallepedidos`
   ADD PRIMARY KEY (`id_detalle`),
   ADD UNIQUE KEY `id_pedido` (`id_pedido`,`id_producto`),
   ADD KEY `id_producto` (`id_producto`);
 
 --
--- Indices de la tabla `entrenadores`
+-- Indices de la tabla `Entrenadores`
 --
-ALTER TABLE `entrenadores`
+ALTER TABLE `Entrenadores`
   ADD PRIMARY KEY (`id_entrenador`),
   ADD UNIQUE KEY `id_usuario` (`id_usuario`);
 
 --
--- Indices de la tabla `pedidos`
+-- Indices de la tabla `Pedidos`
 --
-ALTER TABLE `pedidos`
+ALTER TABLE `Pedidos`
   ADD PRIMARY KEY (`id_pedido`),
   ADD KEY `id_cliente` (`id_cliente`);
 
 --
--- Indices de la tabla `productos`
+-- Indices de la tabla `Productos`
 --
-ALTER TABLE `productos`
+ALTER TABLE `Productos`
   ADD PRIMARY KEY (`id_producto`);
 
 --
--- Indices de la tabla `resenias`
+-- Indices de la tabla `Resenias`
 --
-ALTER TABLE `resenias`
+ALTER TABLE `Resenias`
   ADD PRIMARY KEY (`id_resenia`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_entrenador` (`id_entrenador`);
 
 --
--- Indices de la tabla `reservas`
+-- Indices de la tabla `Reservas`
 --
-ALTER TABLE `reservas`
+ALTER TABLE `Reservas`
   ADD PRIMARY KEY (`id_reserva`),
   ADD KEY `id_cliente` (`id_cliente`),
   ADD KEY `id_clase` (`id_clase`);
 
 --
--- Indices de la tabla `seguimiento`
+-- Indices de la tabla `Seguimiento`
 --
-ALTER TABLE `seguimiento`
-  ADD PRIMARY KEY (`id_seguimiento`),
+ALTER TABLE `Seguimiento`
+  ADD PRIMARY KEY (`id_Seguimiento`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indices de la tabla `Usuarios`
 --
-ALTER TABLE `usuarios`
+ALTER TABLE `Usuarios`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `dni` (`dni`);
@@ -398,69 +398,69 @@ ALTER TABLE `usuarios`
 --
 
 --
--- Filtros para la tabla `carrito`
+-- Filtros para la tabla `Carrito`
 --
-ALTER TABLE `carrito`
-  ADD CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Carrito`
+  ADD CONSTRAINT `Carrito_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Carrito_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `Productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `clases`
+-- Filtros para la tabla `Clases`
 --
-ALTER TABLE `clases`
-  ADD CONSTRAINT `clases_ibfk_1` FOREIGN KEY (`id_entrenador`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL;
+ALTER TABLE `Clases`
+  ADD CONSTRAINT `Clases_ibfk_1` FOREIGN KEY (`id_entrenador`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE SET NULL;
 
 --
--- Filtros para la tabla `clientes`
+-- Filtros para la tabla `Clientes`
 --
-ALTER TABLE `clientes`
-  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+ALTER TABLE `Clientes`
+  ADD CONSTRAINT `Clientes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `contrataciones`
+-- Filtros para la tabla `Contrataciones`
 --
-ALTER TABLE `contrataciones`
-  ADD CONSTRAINT `contrataciones_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE,
-  ADD CONSTRAINT `contrataciones_ibfk_2` FOREIGN KEY (`id_entrenador`) REFERENCES `entrenadores` (`id_entrenador`) ON DELETE CASCADE;
+ALTER TABLE `Contrataciones`
+  ADD CONSTRAINT `Contrataciones_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `Clientes` (`id_cliente`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Contrataciones_ibfk_2` FOREIGN KEY (`id_entrenador`) REFERENCES `Entrenadores` (`id_entrenador`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `detallepedidos`
+-- Filtros para la tabla `Detallepedidos`
 --
-ALTER TABLE `detallepedidos`
-  ADD CONSTRAINT `detallepedidos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`) ON DELETE CASCADE,
-  ADD CONSTRAINT `detallepedidos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE;
+ALTER TABLE `Detallepedidos`
+  ADD CONSTRAINT `Detallepedidos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `Pedidos` (`id_pedido`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Detallepedidos_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `Productos` (`id_producto`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `entrenadores`
+-- Filtros para la tabla `Entrenadores`
 --
-ALTER TABLE `entrenadores`
-  ADD CONSTRAINT `entrenadores_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+ALTER TABLE `Entrenadores`
+  ADD CONSTRAINT `Entrenadores_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `pedidos`
+-- Filtros para la tabla `Pedidos`
 --
-ALTER TABLE `pedidos`
-  ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE;
+ALTER TABLE `Pedidos`
+  ADD CONSTRAINT `Pedidos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `Clientes` (`id_cliente`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `resenias`
+-- Filtros para la tabla `Resenias`
 --
-ALTER TABLE `resenias`
-  ADD CONSTRAINT `resenias_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
-  ADD CONSTRAINT `resenias_ibfk_2` FOREIGN KEY (`id_entrenador`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+ALTER TABLE `Resenias`
+  ADD CONSTRAINT `Resenias_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Resenias_ibfk_2` FOREIGN KEY (`id_entrenador`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `reservas`
+-- Filtros para la tabla `Reservas`
 --
-ALTER TABLE `reservas`
-  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE,
-  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`) ON DELETE CASCADE;
+ALTER TABLE `Reservas`
+  ADD CONSTRAINT `Reservas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `Clientes` (`id_cliente`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Reservas_ibfk_2` FOREIGN KEY (`id_clase`) REFERENCES `Clases` (`id_clase`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `seguimiento`
+-- Filtros para la tabla `Seguimiento`
 --
-ALTER TABLE `seguimiento`
-  ADD CONSTRAINT `seguimiento_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+ALTER TABLE `Seguimiento`
+  ADD CONSTRAINT `Seguimiento_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

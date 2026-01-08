@@ -100,7 +100,6 @@ const Dashboard = () => {
         <p className="dashboard-code">Tu código personal: <strong>{codigo}</strong></p>
       )}
 
-      {/* Botones superiores */}
       <div className="dashboard-buttons">
         {user?.rol === "cliente" && (
           <>
@@ -172,8 +171,6 @@ const Dashboard = () => {
                         >
                           Dar de baja
                         </button>
-                        {/* ⚠️ Nota: Esta ruta de reserva individual ya no es necesaria 
-                             si usas el botón global de arriba, pero la mantenemos por consistencia. */}
                         
                       </div>
                     )}

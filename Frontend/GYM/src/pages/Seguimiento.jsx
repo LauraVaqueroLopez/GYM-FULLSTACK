@@ -70,12 +70,10 @@ const Seguimiento = () => {
   const normalizeObjetivo = (raw) => {
     if (!raw && raw !== 0) return "";
     const s = String(raw).normalize('NFC').trim().toLowerCase();
-    // map common variants to canonical values
     if (s.includes('perder')) return 'perder peso';
     if (s.includes('ganar') || s.includes('muscul')) return 'ganar músculo';
     if (s.includes('mejorar') || s.includes('resisten')) return 'mejorar resistencia';
     if (s.includes('otro')) return 'otro';
-    // fallback: return trimmed raw
     return raw;
   };
 
@@ -87,7 +85,6 @@ const Seguimiento = () => {
 
   const location = useLocation();
 
-  // Buscar cliente por codigo_personal (entrenador/admin) y cargar sus entradas
   const buscarPorCodigo = async (codigo) => {
     if (!codigo) return;
     setMensaje("");
@@ -130,17 +127,14 @@ const Seguimiento = () => {
     }
   };
 
-  // Si la ruta tiene ?codigo=..., realizar búsqueda automática al montar/cambiar la query
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const codigoParam = params.get("codigo");
     if (codigoParam && (user?.rol === "entrenador" || user?.rol === "admin")) {
       buscarPorCodigo(codigoParam);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search, user]);
 
-  // sync objetivoValue when clienteInfo changes
   useEffect(() => {
     setObjetivoValue(normalizeObjetivo(clienteInfo?.objetivo));
   }, [clienteInfo]);
@@ -155,9 +149,7 @@ const Seguimiento = () => {
   const handleSaveObjetivo = async () => {
     try {
       const tokenLocal = token || localStorage.getItem("token");
-      // call API to update objetivo
       await seguimientoApi.actualizarObjetivo(userInfo.id_usuario, objetivoValue || "", tokenLocal);
-      // refresh local clienteInfo
       setClienteInfo((c) => ({ ...(c || {}), objetivo: objetivoValue || null }));
       setMensaje("Objetivo actualizado");
       setObjetivoEditing(false);
@@ -168,7 +160,6 @@ const Seguimiento = () => {
   };
 
   const fetchPorUsuario = async (id) => {
-    // clear previous messages when loading new data
     setMensaje("");
     try {
       const res = await seguimientoApi.obtenerPorUsuario(id, token);
@@ -178,13 +169,10 @@ const Seguimiento = () => {
   setClienteInfo(cliente);
   setObjetivoValue(cliente?.objetivo || "");
   setUserInfo(uInfo);
-      // if cliente has an initial peso from registration, prepend it as first data point
       const entriesWithInit = (() => {
         if (!cliente || cliente.peso === null || cliente.peso === undefined) return serverEntries;
-        // avoid duplicate: if server already contains an entry with same peso and no fecha conflict, skip
         const alreadyHas = serverEntries.some((e) => Number(e.peso) === Number(cliente.peso));
         if (alreadyHas) return serverEntries;
-        // create a synthetic initial entry; label fecha as 'Registro' so it's visible on chart
           const initEntry = {
           id_seguimiento: "init",
           id_usuario: id,
@@ -203,12 +191,10 @@ const Seguimiento = () => {
     }
   };
 
-  // Validation helpers
   const isNumeric = (v) => !isNaN(v) && v !== null && v !== "";
 
   const validateCrear = () => {
     const errors = {};
-    // peso required
     if (peso === "" || peso === null || peso === undefined) {
       errors.peso = "El peso es obligatorio.";
     } else if (!isNumeric(peso)) {
@@ -217,14 +203,12 @@ const Seguimiento = () => {
       errors.peso = "El peso debe ser mayor que 0.";
     }
 
-    // fecha required
     if (!fecha) {
       errors.fecha = "La fecha es obligatoria.";
     } else if (isNaN(new Date(fecha).getTime())) {
       errors.fecha = "Fecha inválida.";
     }
 
-    // altura optional but if provided must be numeric and reasonable
     if (altura !== "" && altura !== null && altura !== undefined) {
       if (!isNumeric(altura)) {
         errors.altura = "La altura debe ser un número válido (ej. 175.50).";
@@ -233,7 +217,6 @@ const Seguimiento = () => {
       }
     }
 
-    // calorias optional -> numeric integer >=0
     if (calorias !== "" && calorias !== null && calorias !== undefined) {
       if (!isNumeric(calorias) || !Number.isFinite(Number(calorias))) {
         errors.calorias = "Las calorías deben ser un número entero (ej. 200).";
@@ -242,7 +225,6 @@ const Seguimiento = () => {
       }
     }
 
-    // observaciones optional but limit length
     if (observaciones && observaciones.length > 1000) {
       errors.observaciones = "Observaciones demasiado largas (máx. 1000 caracteres).";
     }
@@ -282,12 +264,10 @@ const Seguimiento = () => {
   const handleCrear = async (e) => {
     e.preventDefault();
     if (!user) return;
-    // client-side validation
     if (!validateCrear()) {
       setMensaje('Corrige los errores del formulario.');
       return;
     }
-  // clear any previous messages before creating
   setMensaje("");
   try {
       const payload = {
@@ -300,7 +280,6 @@ const Seguimiento = () => {
       };
       const res = await seguimientoApi.crearEntrada(payload, token);
       setMensaje("Entrada guardada");
-      // actualizar lista
       setEntries((prev) => [...prev, res.data.entry]);
       setPeso("");
       setAltura("");
@@ -313,7 +292,6 @@ const Seguimiento = () => {
     }
   };
 
-  // Preparar datos para la gráfica
   const chartData = {
     labels: entries.map((e) => e.fecha),
     datasets: [
@@ -327,7 +305,6 @@ const Seguimiento = () => {
     ],
   };
 
-  // Calcular progreso simple: diferencia entre primer y último peso registrado
   const progreso = (() => {
     if (!entries || entries.length < 2) return null;
     const first = entries.find((e) => e.peso !== null);
@@ -336,7 +313,6 @@ const Seguimiento = () => {
     const diff = Number(last.peso) - Number(first.peso);
     let porcentaje = null;
     if (clienteInfo && clienteInfo.objetivo) {
-      // Si objetivo es 'perder peso', progreso negativo significa avance
       if (clienteInfo.objetivo === "perder peso") {
         porcentaje = ((first.peso - last.peso) / first.peso) * 100;
       } else if (clienteInfo.objetivo === "ganar músculo") {
@@ -365,7 +341,6 @@ const Seguimiento = () => {
 
           <div className="seguimiento-grid">
             <div className="seguimiento-columns">
-          {/* Left column: form/search */}
           <div>
             {user?.rol === "cliente" && (
                 <div>
@@ -404,7 +379,6 @@ const Seguimiento = () => {
             )}
           </div>
 
-          {/* Middle column: entries list */}
           <div className="col-min">
             <div className="card">
               <h3>Entradas</h3>
@@ -458,7 +432,6 @@ const Seguimiento = () => {
                                     <input className="input-medium" type="number" value={editValues.calorias_quemadas} onChange={(ev) => { setEditValues((s) => ({ ...s, calorias_quemadas: ev.target.value })); setMensaje(""); }} />
                                     {editErrors.calorias_quemadas && <div className="error">{editErrors.calorias_quemadas}</div>}
                                     <button className="btn-primary btn-small" onClick={async () => {
-                                      // validate edit values
                                       if (!validateEdit(editValues)) {
                                         setMensaje('Corrige los errores del formulario de edición.');
                                         return;
@@ -498,7 +471,6 @@ const Seguimiento = () => {
             </div>
           </div>
 
-          {/* Right column: chart + progreso */}
           <div className="right-col">
             <div className="card mb-12">
               <h3>Gráfica de peso</h3>

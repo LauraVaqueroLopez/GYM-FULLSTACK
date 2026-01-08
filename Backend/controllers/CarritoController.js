@@ -1,9 +1,7 @@
 import Carrito from "../models/Carrito.js";
 import Producto from "../models/Producto.js";
 
-/**
- * Añadir producto al carrito y descontar stock
- */
+/*Añadir producto al carrito y descontar stock*/
 export const agregarProductoCarrito = async (req, res) => {
   try {
     const id_usuario = req.user.id_usuario;

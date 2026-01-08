@@ -2,14 +2,14 @@ import Cliente from "../models/Cliente.js";
 import Clase from "../models/Clase.js";
 import Reserva from "../models/Reserva.js";
 import Contratacion from "../models/Contratacion.js";
-import Entrenador from "../models/Entrenador.js"; // Necesario para la corrección
+import Entrenador from "../models/Entrenador.js"; 
 import Usuario from "../models/Usuario.js";
-import { Op } from "sequelize"; // Necesario para el filtro de plazas
+import { Op } from "sequelize"; 
 
 export const obtenerClasesPorFecha = async (req, res) => {
   try {
     const user = req.user;
-    const { fecha } = req.query; // Solo espera 'fecha'
+    const { fecha } = req.query; 
 
     if (!fecha) {
       return res.status(400).json({ message: "Debe especificar una fecha" });
@@ -19,11 +19,11 @@ export const obtenerClasesPorFecha = async (req, res) => {
       return res.status(403).json({ message: "Solo los clientes pueden ver clases disponibles" });
     }
 
-    // 1. Obtener cliente
+    //  Obtener cliente
     const cliente = await Cliente.findOne({ where: { id_usuario: user.id_usuario } });
     if (!cliente) return res.status(404).json({ message: "Cliente no encontrado" });
 
-    // 2. Obtener entrenador contratado
+    //  Obtener entrenador contratado
     const contratacion = await Contratacion.findOne({
       where: { id_cliente: cliente.id_cliente, estado: "activa" }
     });
@@ -32,9 +32,7 @@ export const obtenerClasesPorFecha = async (req, res) => {
       return res.status(400).json({ message: "No tienes ningún entrenador contratado con el cual reservar clases." });
     }
 
-    // 3. ⚠️ CORRECCIÓN CRÍTICA: Obtener el id_usuario del entrenador contratado.
-    // La tabla Clases usa el ID de Usuario (id_entrenador FK a usuarios.id_usuario).
-    // La Contratación usa el ID de Entrenador (id_entrenador FK a entrenadores.id_entrenador).
+    // Obtener el id_usuario del entrenador contratado.
     const entrenadorContratado = await Entrenador.findOne({
         where: { id_entrenador: contratacion.id_entrenador },
         attributes: ['id_usuario']
@@ -46,15 +44,14 @@ export const obtenerClasesPorFecha = async (req, res) => {
     
     const id_usuario_entrenador = entrenadorContratado.id_usuario;
 
-    // 4. Obtener clases de ese entrenador en esa fecha con plazas disponibles
+    // Obtener clases de ese entrenador en esa fecha con plazas disponibles
     const clases = await Clase.findAll({
       where: { 
         id_entrenador: id_usuario_entrenador, 
         fecha,
-        plazas_disponibles: { [Op.gt]: 0 } // Solo clases con plazas disponibles
+        plazas_disponibles: { [Op.gt]: 0 } 
       },
       order: [["hora", "ASC"]],
-      // Opcional: Especificar solo los atributos necesarios para el select
       attributes: ["id_clase", "nombre_clase", "hora", "hora_fin", "plazas_disponibles"], 
     });
 
@@ -66,11 +63,7 @@ export const obtenerClasesPorFecha = async (req, res) => {
   }
 };
 
-/**
- * 📌 Crear una reserva
- * POST /api/reservas
- * Body: { id_clase }
- */
+/*Crear una reserva*/
 export const reservarClase = async (req, res) => {
   try {
     const { id_clase } = req.body;
@@ -93,11 +86,10 @@ export const reservarClase = async (req, res) => {
     if (!clase) return res.status(404).json({ message: "Clase no encontrada" });
 
     // Verificar que el cliente tiene contratado al entrenador de esa clase
-    // Aquí necesitamos obtener el ID de Entrenador (UUID de la tabla Entrenadores)
-    // El id_entrenador en la clase es el id_usuario del entrenador.
+    // Aquí necesitamos obtener el ID de Entrenador
     const entrenadorDelClase = await Entrenador.findOne({
         where: { id_usuario: clase.id_entrenador },
-        attributes: ['id_entrenador'] // Obtenemos el ID UUID de la tabla Entrenadores
+        attributes: ['id_entrenador'] 
     });
 
     if (!entrenadorDelClase) {
@@ -109,7 +101,7 @@ export const reservarClase = async (req, res) => {
     const contratacion = await Contratacion.findOne({
       where: {
         id_cliente: cliente.id_cliente,
-        id_entrenador: id_entrenador_contratacion, // Usamos el ID de la tabla Contrataciones
+        id_entrenador: id_entrenador_contratacion,
         estado: "activa"
       }
     });
@@ -156,10 +148,7 @@ export const reservarClase = async (req, res) => {
   }
 };
 
-/**
- * 📌 Obtener reservas del cliente autenticado
- * GET /api/reservas
- */
+
 export const obtenerReservasCliente = async (req, res) => {
   try {
     const user = req.user;
@@ -176,11 +165,10 @@ export const obtenerReservasCliente = async (req, res) => {
       include: [
         {
           model: Clase,
-          // Incluir el entrenador de la clase (que es un Usuario) para mostrar su info
           include: [
             {
               model: Usuario,
-              as: 'Entrenador', // Asegúrate de que esta asociación está definida en associations.js
+              as: 'Entrenador',
               attributes: ['nombre', 'apellidos']
             }
           ]

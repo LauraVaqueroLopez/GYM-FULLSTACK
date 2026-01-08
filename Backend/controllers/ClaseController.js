@@ -3,16 +3,12 @@ import { Op } from "sequelize";
 import Clase from "../models/Clase.js";
 import Usuario from "../models/Usuario.js";
 
-/**
- * Crear clases diarias durante 1 año
- * El id_entrenador se obtiene automáticamente del token
- */
+/*Crear clases diarias durante 1 año*/
 export const crearClasesTodoAno = async (req, res) => {
   try {
     const { nombre_clase, descripcion, horaInicio, horaFin } = req.body;
 
-    // 🔥 Obtener id_entrenador desde el token
-    // Ahora usamos id_usuario directamente
+   
     const id_entrenador = req.user.id_usuario;
 
     if (!id_entrenador) {
@@ -42,7 +38,7 @@ export const crearClasesTodoAno = async (req, res) => {
       clasesCrear.push({
         nombre_clase,
         descripcion,
-        id_entrenador,   // id_usuario del entrenador
+        id_entrenador,  
         fecha: fechaStr,
         hora: horaInicio,
         hora_fin: horaFin,
@@ -63,9 +59,7 @@ export const crearClasesTodoAno = async (req, res) => {
   }
 };
 
-/**
- * Listar clases de un entrenador
- */
+/*Listar clases de un entrenador*/
 export const obtenerClasesEntrenador = async (req, res) => {
   try {
     const { id_entrenador } = req.params;
@@ -83,9 +77,7 @@ export const obtenerClasesEntrenador = async (req, res) => {
   }
 };
 
-/**
- * Obtener días disponibles
- */
+/*Obtener días disponibles*/
 export const obtenerDiasDisponibles = async (req, res) => {
   try {
     const { id_entrenador } = req.params;
@@ -105,9 +97,7 @@ export const obtenerDiasDisponibles = async (req, res) => {
   }
 };
 
-/**
- * Obtener horas disponibles en un día
- */
+/*Obtener horas disponibles en un día*/
 export const obtenerHorasDisponibles = async (req, res) => {
   try {
     const { id_entrenador, fecha } = req.params;
