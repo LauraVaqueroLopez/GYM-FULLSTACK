@@ -179,28 +179,28 @@ CREATE TABLE `Productos` (
 --
 
 INSERT INTO `Productos` (`id_producto`, `nombre`, `descripcion`, `precio`, `stock`, `categoria`) VALUES
-('62e911eb-d6a3-11f0-8377-2c58b9490181', 'Prote?na Whey', 'Prote?na de suero concentrada', 29.99, 51, 'suplementos'),
+('62e911eb-d6a3-11f0-8377-2c58b9490181', 'Proteína Whey', 'Proteína de suero concentrada', 29.99, 51, 'suplementos'),
 ('62eb1205-d6a3-11f0-8377-2c58b9490181', 'Mancuernas 10kg', 'Par de mancuernas de 10kg', 45.00, 22, 'equipamiento'),
-('ea509ab3-d6a3-11f0-8377-2c58b9490181', 'Prote?na Whey Vainilla', 'Prote?na de suero con sabor a vainilla', 29.99, 50, 'Suplementos'),
+('ea509ab3-d6a3-11f0-8377-2c58b9490181', 'Proteína Whey Vainilla', 'Proteína de suero con sabor a vainilla', 29.99, 50, 'Suplementos'),
 ('ea5216c2-d6a3-11f0-8377-2c58b9490181', 'Creatina Monohidratada', 'Creatina micronizada de alta pureza', 19.99, 80, 'Suplementos'),
-('ea5218be-d6a3-11f0-8377-2c58b9490181', 'BCAA 2:1:1', 'Amino?cidos esenciales para recuperaci?n muscular', 24.50, 39, 'Suplementos'),
-('ea521a12-d6a3-11f0-8377-2c58b9490181', 'Glutamina 500g', 'Glutamina pura para mejorar la recuperaci?n', 18.99, 35, 'Suplementos'),
-('ea521c04-d6a3-11f0-8377-2c58b9490181', 'Pre Entreno Xtreme', 'Pre-entreno con cafe?na y beta-alanina', 32.00, 25, 'Suplementos'),
+('ea5218be-d6a3-11f0-8377-2c58b9490181', 'BCAA 2:1:1', 'Aminoácidos esenciales para recuperación muscular', 24.50, 39, 'Suplementos'),
+('ea521a12-d6a3-11f0-8377-2c58b9490181', 'Glutamina 500g', 'Glutamina pura para mejorar la recuperación', 18.99, 35, 'Suplementos'),
+('ea521c04-d6a3-11f0-8377-2c58b9490181', 'Pre Entreno Xtreme', 'Pre-entreno con cafeína y beta-alanina', 32.00, 25, 'Suplementos'),
 ('ea521c88-d6a3-11f0-8377-2c58b9490181', 'Mancuernas 5kg', 'Par de mancuernas de 5kg', 22.99, 30, 'Equipamiento'),
 ('ea521cf9-d6a3-11f0-8377-2c58b9490181', 'Mancuernas 10kg', 'Par de mancuernas de 10kg', 45.00, 20, 'Equipamiento'),
-('ea521d5a-d6a3-11f0-8377-2c58b9490181', 'Barra Ol?mpica 20kg', 'Barra profesional para levantamiento', 120.00, 9, 'Equipamiento'),
+('ea521d5a-d6a3-11f0-8377-2c58b9490181', 'Barra Olímpica 20kg', 'Barra profesional para levantamiento', 120.00, 9, 'Equipamiento'),
 ('ea521dd7-d6a3-11f0-8377-2c58b9490181', 'Discos 10kg (par)', 'Par de discos de 10kg', 35.00, 40, 'Equipamiento'),
 ('ea521e2f-d6a3-11f0-8377-2c58b9490181', 'Esterilla de Yoga', 'Esterilla antideslizante de 6mm', 15.99, 60, 'Accesorios'),
 ('ea521e99-d6a3-11f0-8377-2c58b9490181', 'Guantes de Boxeo 12oz', 'Guantes acolchados para boxeo', 39.99, 25, 'Accesorios'),
 ('ea521efc-d6a3-11f0-8377-2c58b9490181', 'Comba Profesional', 'Cuerda de saltar ajustable', 12.99, 70, 'Accesorios'),
-('ea521f57-d6a3-11f0-8377-2c58b9490181', 'Cintur?n de Levantamiento', 'Cintur?n r?gido para powerlifting', 29.99, 15, 'Accesorios'),
-('ea522005-d6a3-11f0-8377-2c58b9490181', 'Rodilleras Deportivas', 'Rodilleras el?sticas para entrenamiento', 17.99, 50, 'Accesorios'),
+('ea521f57-d6a3-11f0-8377-2c58b9490181', 'Cinturón de Levantamiento', 'Cinturón rígido para powerlifting', 29.99, 15, 'Accesorios'),
+('ea522005-d6a3-11f0-8377-2c58b9490181', 'Rodilleras Deportivas', 'Rodilleras elásticas para entrenamiento', 17.99, 50, 'Accesorios'),
 ('ea52208c-d6a3-11f0-8377-2c58b9490181', 'Guantes de Entrenamiento', 'Guantes acolchados para gimnasio', 14.99, 45, 'Accesorios'),
-('ea5220e8-d6a3-11f0-8377-2c58b9490181', 'Bid?n 2 Litros', 'Botella deportiva resistente', 9.99, 98, 'Accesorios'),
-('ea522160-d6a3-11f0-8377-2c58b9490181', 'Toalla Microfibra', 'Toalla absorbente de secado r?pido', 7.50, 120, 'Accesorios'),
+('ea5220e8-d6a3-11f0-8377-2c58b9490181', 'Bidón 2 Litros', 'Botella deportiva resistente', 9.99, 98, 'Accesorios'),
+('ea522160-d6a3-11f0-8377-2c58b9490181', 'Toalla Microfibra', 'Toalla absorbente de secado rápido', 7.50, 120, 'Accesorios'),
 ('ea5221ec-d6a3-11f0-8377-2c58b9490181', 'Sudadera Deportiva', 'Sudadera transpirable para entrenamiento', 29.99, 30, 'Ropa'),
 ('ea522258-d6a3-11f0-8377-2c58b9490181', 'Camiseta Dry-Fit', 'Camiseta ligera y transpirable', 12.99, 80, 'Ropa'),
-('ea5222ba-d6a3-11f0-8377-2c58b9490181', 'Pantal?n Deportivo', 'Pantal?n c?modo para gym y running', 19.99, 50, 'Ropa');
+('ea5222ba-d6a3-11f0-8377-2c58b9490181', 'Pantalón Deportivo', 'Pantalón cómodo para gym y running', 19.99, 50, 'Ropa');
 
 -- --------------------------------------------------------
 
