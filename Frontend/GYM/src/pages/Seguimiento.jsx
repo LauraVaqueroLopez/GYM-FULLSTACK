@@ -326,7 +326,7 @@ const Seguimiento = () => {
 
   return (
     <ErrorBoundary>
-      <div className="page-container seguimiento-page">
+      <div className="page-container">
             <div className="header-row">
             <div>
               <h2>Seguimiento</h2>

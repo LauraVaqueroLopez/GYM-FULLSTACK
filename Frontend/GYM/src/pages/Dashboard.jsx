@@ -95,6 +95,10 @@ const Dashboard = () => {
       <h1 className="dashboard-title">
         Bienvenido, {user?.nombre || "Usuario"} 👋
       </h1>
+      <h3>Horario:</h3> 
+      <p>Lunes a Viernes: 6:00 - 23:00</p>
+      <p>Sábados y Domingos: 7:00 - 21:00</p>
+
       <p className="dashboard-role">Rol: {user?.rol}</p>
       {user?.rol === "cliente" && codigo && (
         <p className="dashboard-code">Tu código personal: <strong>{codigo}</strong></p>

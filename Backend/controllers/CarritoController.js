@@ -45,8 +45,8 @@ export const agregarProductoCarrito = async (req, res) => {
   }
 };
 
-/**
- * Obtener carrito
+/*
+ Obtener carrito
  */
 export const obtenerCarrito = async (req, res) => {
   try {
@@ -64,8 +64,8 @@ export const obtenerCarrito = async (req, res) => {
   }
 };
 
-/**
- * Eliminar producto completo del carrito y devolver stock
+/*
+ Eliminar producto completo del carrito y devolver stock
  */
 export const eliminarProductoCarrito = async (req, res) => {
   try {
@@ -91,8 +91,8 @@ export const eliminarProductoCarrito = async (req, res) => {
   }
 };
 
-/**
- * Eliminar una unidad del producto del carrito y devolver stock
+/*
+  Eliminar una unidad del producto del carrito y devolver stock
  */
 export const eliminarUnidadProducto = async (req, res) => {
   try {

@@ -183,7 +183,7 @@ textarea{min-height:100px; resize:vertical; padding-top:10px}
   backdrop-filter: blur(10px); 
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-  margin-left: 900px;
+  margin-left: 300px;
 }
 
 .header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-left: 5%;}
@@ -520,7 +520,7 @@ button:not([style]):not(.btn-secondary):not(.btn-danger){
   background: rgba(255, 255, 255, 0.95) !important;
   padding: 30px !important;
   border-radius: 20px !important;
-  text-align: center; 
+  text-align: center;
 }
 
 .tienda-header-buttons {

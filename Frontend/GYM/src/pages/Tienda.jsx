@@ -33,7 +33,7 @@ const Tienda = () => {
   };
 
   return (
-    <div className="page-container tienda-page">
+    <div className="tienda-page">
       <h1>Tienda</h1>
       <div className="tienda-header-buttons">
         <button className="btn-secondary" onClick={() => navigate("/Dashboard")}>Volver</button>
